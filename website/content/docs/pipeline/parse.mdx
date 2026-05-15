@@ -42,6 +42,13 @@ The parser reads the `trace.zip` and produces a structured representation contai
 npx playwright-recast -i ./test-results/trace.zip -o demo.mp4
 ```
 
+## Source video resolution
+
+The renderer needs a source `.mp4`/`.webm` to apply speed, zoom, overlays, and subtitles against. Two layouts are supported:
+
+- **Sibling `.webm` (preferred)** — when your Playwright config enables `recordVideo` (e.g. `use: { video: 'on' }`), the trace's sibling `.webm` is auto-discovered. Native frame rate, best quality.
+- **Standalone `trace.zip`** — when no sibling `.webm` exists (trace downloaded from the trace viewer, or test run without `recordVideo`), the pipeline assembles a CFR 25fps `.mp4` from the screencast JPEG frames stored inside the trace. Variable capture cadence — `.webm` is preferred when available.
+
 ## Tips
 
 - The trace file must be generated with Playwright's tracing enabled (`--trace on` or via `playwright.config.ts`).
