@@ -5,6 +5,8 @@
 [![npm version](https://img.shields.io/npm/v/playwright-recast)](https://www.npmjs.com/package/playwright-recast)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
+**[Website](https://thepatriczek.github.io/playwright-recast/)** · **[Documentation](https://thepatriczek.github.io/playwright-recast/docs)**
+
 > Your Playwright tests already capture everything — traces, screenshots, network activity, cursor positions. **playwright-recast** turns those artifacts into polished, narrated product videos with a single fluent pipeline.
 
 
