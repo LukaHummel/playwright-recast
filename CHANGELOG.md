@@ -4,12 +4,17 @@
 
 ### Features
 
-- **Disk cache for `ElevenLabsProvider` / `OpenAIProvider` / `PollyProvider`** — Set `cacheDir` on any built-in provider and re-renders skip the API call for `(text, voice, model, language, settings)` tuples that have already been synthesized. Cache key is a SHA-256 over all audio-affecting inputs, so changing the voice / model / settings invalidates the entry. Saves API spend on iterative edits (re-render after subtitle tweaks → only the changed lines hit the API). Omit `cacheDir` to disable disk caching; intra-batch dedup (same narration reused twice in one render) still applies automatically.
+- **Disk cache for `ElevenLabsProvider` / `OpenAIProvider` / `PollyProvider`** ([#11](https://github.com/ThePatriczek/playwright-recast/pull/11)) — Set `cacheDir` on any built-in provider and re-renders skip the API call for `(text, voice, model, language, settings)` tuples that have already been synthesized. Cache key is a SHA-256 over all audio-affecting inputs, so changing the voice / model / settings invalidates the entry. Saves API spend on iterative edits (re-render after subtitle tweaks → only the changed lines hit the API). Omit `cacheDir` to disable disk caching; intra-batch dedup (same narration reused twice in one render) still applies automatically.
 - **`synthesizeWithCache()` helper + `planBatch` primitives** — Exposed from `src/voiceover/providers/util/audio-cache.ts` for custom-provider authors. Wrap your single-text synthesis function and get cache + dedup for free with one call.
+- **`provider.isAvailable()` is now a meaningful pre-flight check** ([#10](https://github.com/ThePatriczek/playwright-recast/pull/10)) — `generateVoiceover` awaits `isAvailable()` before `synthesize()` and throws an actionable error when the provider is not configured. Per-provider checks: OpenAI / ElevenLabs verify the API key is set AND the peer dependency resolves; Polly verifies the AWS SDK peer dependency resolves; Qwen verifies the configured Python binary spawns AND the sidecar script exists. Misconfiguration now fails fast at the start of the render rather than mid-pipeline.
+
+### Breaking changes
+
+- **`TtsProvider.estimateDurationMs` removed** ([#10](https://github.com/ThePatriczek/playwright-recast/pull/10)) — The method was never called by the library. Custom provider implementations should drop the method; bundled providers (OpenAI / ElevenLabs / Polly / Qwen) have all been updated.
 
 ### Internal
 
-- Refactored bundled providers (ElevenLabs / OpenAI / Polly) to share `synthesizeWithCache()` instead of hand-rolled `Promise.all` + buffer writes. Per-provider boilerplate dropped to a single `generateOne(text)` function.
+- Refactored bundled providers (ElevenLabs / OpenAI / Polly) to share `synthesizeWithCache()` instead of hand-rolled `Promise.all` + buffer writes. Per-provider boilerplate dropped to a single `generateOne(text)` function. Thanks to [@Andy2003](https://github.com/Andy2003) for the original cache pattern in `QwenTtsProvider`.
 - Test suite: **410 passed** (+15 — 11 audio-cache helper tests + 4 per-provider cache tests).
 
 ## 0.17.0 (2026-05-22)
