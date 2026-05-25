@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.18.1 (2026-05-25)
+
+### Bug fixes
+
+- **`hideSteps()` leaked hidden-step clicks, cursor, and content into the rendered video** ([#13](https://github.com/ThePatriczek/playwright-recast/pull/13)) — When a parent step (e.g. `test.step('login', …)`) was hidden, its child click actions survived filtering, so `clickEffect`, `cursorOverlay`, and the renderer still rendered them — clicks piled up at `videoTimeMs=0`, and cursor motion from inside the hidden step remained visible. `processSpeed`'s `minSegmentDuration` merge could also bridge across the hidden gap, pulling the cut content back into output segments. Fixed across four modules: `filterSteps` now drops child actions whose `startTime` falls inside a hidden range; the executor feeds filtered actions to click/cursor stages and re-runs `processSpeed` when `hideSteps` is called after `speedUp`; `processSpeed` only merges short segments when they are adjacent; `buildTimeRemap` snaps gap times forward to the next segment's `outputStart`.
+
+### Docs
+
+- **Qwen venv renamed to `playwright-recast`** ([#12](https://github.com/ThePatriczek/playwright-recast/pull/12)) — The recommended shared venv is now `~/.venvs/playwright-recast` (was `~/.venvs/qwen-tts`). Dropped uv/conda/per-project alternatives to keep setup instructions focused. Thanks to [@Andy2003](https://github.com/Andy2003).
+
+### Internal
+
+- Test suite: **413 passed** (+3 — step-filter child-action test, speed-processor gap-merge test, time-remap gap-snap test).
+
 ## 0.18.0 (2026-05-22)
 
 ### Features

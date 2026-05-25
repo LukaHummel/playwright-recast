@@ -135,7 +135,7 @@ export function Hero() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
             </span>
-            <span className="truncate">v0.18.0 — disk cache for ElevenLabs / OpenAI / Polly providers</span>
+            <span className="truncate">v0.18.1 — hideSteps() fix: hidden clicks, cursor & content no longer leak</span>
           </div>
         </BlurFade>
 
