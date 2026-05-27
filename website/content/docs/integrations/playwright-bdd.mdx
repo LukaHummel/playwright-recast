@@ -26,7 +26,7 @@ setupRecast(test)
 export { narrate, pace }
 ```
 
-`setupRecast(test)` connects the step helpers to the Playwright test context. Call it once before defining any steps.
+`setupRecast(test)` connects the step helpers to the Playwright test context. Call it once before defining any steps that rely on narration, zoom, highlight, click, or narration-boundary markers.
 
 ## Using narrate in step definitions
 
@@ -117,6 +117,24 @@ When('the user fills in the search', async ({ page }, docString?: string) => {
   await pace(page, 4000)
 })
 ```
+
+## Polished clicks and narration beats
+
+Swap `page.click()` for the [`click()` helper](/docs/helpers/click) on the interactions you want to emphasise — the renderer gives those a deliberate, held cursor approach. Use [`waitForNarration()`](/docs/helpers/wait-for-narration) to hold the video until a line finishes speaking before the next step runs:
+
+```typescript
+import { narrate, click, waitForNarration, pace } from 'playwright-recast'
+
+When('the user opens the report', async ({ page }, docString?: string) => {
+  await narrate(docString)
+  await click(page.getByRole('link', { name: 'Reports' }))
+  await waitForNarration()   // let this line finish before moving on
+})
+```
+
+Render with `.cursorOverlay()` and/or `.clickEffect()` so the marked clicks are drawn; tune the held approach with `.cursorOverlay({ approachMs: 600 })`.
+
+With a `.voiceover()` stage you don't need `autoWait` or `pace()` for timing: the rendered video freezes at each `waitForNarration()` for exactly as long as the line needs, so the test can run at full speed and the narration still stays in sync. See [Pacing narration without autoWait](/docs/helpers/wait-for-narration#pacing-narration-without-autowait).
 
 ## Generating the video
 

@@ -37,6 +37,9 @@ await narrate(undefined)
 
 When running without TTS (e.g., live demos or local previews), the video needs enough visual time for each line. `autoWait` waits for an estimate based on `text` length:
 
+> **With TTS you usually don't need `autoWait`.** The [`voiceover()`](/docs/pipeline/voiceover) stage already stretches the video to fit each line — see [Voiceover-driven freezes](#voiceover-driven-freezes) and [`waitForNarration()`](/docs/helpers/wait-for-narration#pacing-narration-without-autowait). Reach for `autoWait` mainly when rendering without TTS, where there is no audio to size the pause.
+
+
 | Form | Behavior |
 |------|----------|
 | `true` | Estimate from non-whitespace characters / `NARRATE_DEFAULT_CPS` (14 ch/s ≈ 150 wpm). |
@@ -56,6 +59,8 @@ To pad every line without repeating `autoWait` on each call, set it once via [`s
 ## Voiceover-driven freezes
 
 When the pipeline runs `voiceover()` and the synthesized audio for a narration is longer than the visual window between this narrate and the next, the renderer **holds the current frame** until the audio finishes. The frozen frame includes any active highlight/zoom overlay, and `clickEffect` sounds shift along with the timeline. You get audio-perfect sync without having to hand-tune `pace()` calls.
+
+To force a hold at a deliberate point — e.g. before a click that must not be talked over, or at the end of a scenario — call [`waitForNarration()`](/docs/helpers/wait-for-narration). It ends the preceding narration's window there so the renderer holds until that line is fully spoken.
 
 ## Hiding steps
 
