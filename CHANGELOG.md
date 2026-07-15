@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.19.1 (2026-07-15)
+
+### Features
+
+- **Cursor overlay: continuous movement between pointer positions** ([#18](https://github.com/ThePatriczek/playwright-recast/pull/18)) — The cursor now travels from the previous pointer position to the next and reaches each target exactly at its trace timestamp, instead of appearing per-click from a fixed upper-left offset. New `moveDurationMs` option (default 250) caps the travel time; closely spaced actions use the shorter interval between their timestamps (50 ms safety floor for ffmpeg interpolation). The first position still arrives from a small upper-left offset, and the appear-at-target safeguard for long Playwright auto-waits is retained. Thanks to [@LukaHummel](https://github.com/LukaHummel).
+- **`cursorOverlay({ easing })` and `hideAfterMs` are now honored** ([#18](https://github.com/ThePatriczek/playwright-recast/pull/18)) — Both options were documented but silently ignored by the expression builder (movement was always ease-out, post-click visibility was hardcoded to 200 ms). Rendered output changes accordingly with default config: easing is now `ease-in-out`, the cursor stays visible 500 ms after arriving (was 200 ms), and it appears `moveDurationMs` (250 ms) before each click instead of 500 ms.
+
+### Bug fixes
+
+- **Click/cursor overlays lagged the video when `speedUp` + voiceover were combined** ([#16](https://github.com/ThePatriczek/playwright-recast/pull/16)) — A leading intro-narration freeze was skipped by the renderer while overlays were still shifted by its full duration, landing them seconds late. Leading/coincident holds are now applied as a start-pad on the first frame, and `subtitlesFromTrace` + approach holds subtract the same `videoStartOutput` offset as the SRT/cursor/click stages.
+- **Rapid clicks dropped their click sound** ([#17](https://github.com/ThePatriczek/playwright-recast/pull/17)) — The click sound track was built by sequential silence+sound concat, which dropped any click spaced closer than the sound's full duration (~1.5 s for the bundled sound). Each click sound is now placed at its exact time via `adelay` + `amix`, so overlapping clicks all play — matching the ripple overlays.
+- **Website build: `tailwind-merge` was imported but never declared** — The docs site relied on it transitively; a dependency update dropped it and broke the GitHub Pages deploy. Now declared explicitly in `website/package.json`.
+
+### Docs
+
+- Updated README, website cursor-overlay/pipeline docs, API reference, and the recast-guide skill for `moveDurationMs` and the new movement model; documented the full `cursorOverlay` option table (including `approachMs`) and fixed the documented `size` default (30 → 24).
+
+### Internal
+
+- Test suite: **481 passed** (+19 — trajectory expression builder coverage: previous-position starts, duration clamping, easing variants, visibility windows, freeze-plan regression tests, and per-click sound placement).
+
 ## 0.19.0 (2026-05-27)
 
 ### Features

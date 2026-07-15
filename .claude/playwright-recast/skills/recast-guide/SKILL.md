@@ -79,7 +79,7 @@ npx playwright-recast -i ./traces --srt narration.srt --burn-subs
 | `.textProcessing(config)` | Sanitize subtitle text for TTS (strip quotes, normalize dashes, custom rules) |
 | `.autoZoom(config)` | Auto-zoom to user interaction targets from trace |
 | `.enrichZoomFromReport(steps)` | Apply zoom coordinates from external report data (legacy — prefer the `zoom()` helper which writes directly into the trace) |
-| `.cursorOverlay(config)` | Animated cursor that moves to each click; `approachMs` holds the frame for `click()`-marked clicks so the cursor glides over the painted target |
+| `.cursorOverlay(config)` | Animated cursor that travels between click positions (`moveDurationMs` caps travel time, `easing`/`hideAfterMs` control the motion and post-arrival visibility); `approachMs` holds the frame for `click()`-marked clicks so the cursor glides over the painted target |
 | `.clickEffect(config)` | Visual ripple + optional click sound at click positions (prefers `click()`/`markClick()` markers over auto-detected clicks) |
 | `.voiceover(provider)` | Generate TTS from subtitle text |
 | `.render(config)` | Configure output format/resolution/fps/subtitle styling |
