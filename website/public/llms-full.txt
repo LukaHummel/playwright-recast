@@ -1043,7 +1043,7 @@ The renderer applies zoom by cropping the video to `(width/level x height/level)
 ## Cursor Overlay
 
 
-The `.cursorOverlay()` stage renders an animated cursor that appears before each click, moves to the click position with an ease-out animation, then disappears. It gives viewers a clear visual indicator of where interactions happen.
+The `.cursorOverlay()` stage renders an animated cursor that travels from one click position to the next and reaches each target at its trace timestamp. You can control the travel duration, easing, and how long the cursor remains visible after arrival.
 
 ## Basic usage
 
@@ -1061,7 +1061,11 @@ await Recast
 | Option | Type | Default | Description |
 |---|---|---|---|
 | `image` | `string` | bundled arrow cursor | Path to a custom cursor image (PNG) |
-| `size` | `number` | `30` | Cursor width in pixels (relative to 1080p) |
+| `size` | `number` | `24` | Cursor width in pixels (relative to 1080p) |
+| `easing` | `'linear' \| 'ease-in-out' \| 'ease-out'` | `'ease-in-out'` | Easing used while travelling between positions |
+| `moveDurationMs` | `number` | `250` | Maximum time spent travelling to the next position |
+| `hideAfterMs` | `number` | `500` | Time the cursor remains visible after reaching a position |
+| `approachMs` | `number` | `500` | Hold duration for marker-driven clicks |
 
 ### Custom cursor image
 
@@ -1078,11 +1082,11 @@ The bundled default is a 30x44 arrow cursor PNG. Provide your own image for bran
 
 For each click action detected in the trace:
 
-1. The cursor appears near the click target
-2. It moves to the exact click position with an ease-out animation
-3. It disappears after the click
+1. The first cursor position arrives from a small upper-left offset
+2. Later positions travel from the preceding pointer position with the configured easing
+3. The cursor reaches the target at the click timestamp and hides after `hideAfterMs`
 
-The animation uses ffmpeg `movie` + `overlay` filters with per-click `enable` expressions and ease-out movement calculated via `st()/ld()` temp variables.
+The animation uses ffmpeg `movie` + `overlay` filters with per-position `enable` expressions and easing calculated via `st()/ld()` temp variables. Long Playwright auto-waits retain the appear-at-target safeguard so the cursor does not glide over a loading screen.
 
 ## CLI equivalent
 
@@ -2107,8 +2111,10 @@ Render an animated cursor that moves between action positions.
 | `color` | `string` | `'#FFFFFF'` | Dot color (hex) |
 | `opacity` | `number` | `0.9` | Opacity 0.0-1.0 |
 | `easing` | `string` | `'ease-in-out'` | Movement easing |
-| `hideAfterMs` | `number` | `500` | Fade-out delay after last action |
+| `moveDurationMs` | `number` | `250` | Maximum travel time to the next pointer position |
+| `hideAfterMs` | `number` | `500` | Visible time after reaching a position |
 | `shadow` | `boolean` | `true` | Drop shadow on cursor |
+| `approachMs` | `number` | `500` | Hold duration for marker-driven clicks |
 | `filter` | `(action: TraceAction) => boolean` | — | Filter which actions generate cursor positions |
 
 ---
@@ -2753,8 +2759,10 @@ interface CursorOverlayConfig {
   color?: string                            // Default: '#FFFFFF'
   opacity?: number                          // Default: 0.9
   easing?: 'linear' | 'ease-in-out' | 'ease-out'  // Default: 'ease-in-out'
+  moveDurationMs?: number                   // Default: 250
   hideAfterMs?: number                      // Default: 500
   shadow?: boolean                          // Default: true
+  approachMs?: number                       // Default: 500
   filter?: (action: TraceAction) => boolean
 }
 ```
@@ -3887,7 +3895,9 @@ await Recast
     opacity: 0.9,
     shadow: true,
     easing: 'ease-out',
+    moveDurationMs: 250,
     hideAfterMs: 500,
+    approachMs: 500,
   })
 
   // 8. Click ripple effects with sound
@@ -4767,7 +4777,7 @@ By default, all click and selectOption actions with cursor coordinates are highl
 
 ## Cursor overlay
 
-The `.cursorOverlay()` stage renders an animated cursor that appears before each action, moves to the action position with easing, then disappears after a timeout.
+The `.cursorOverlay()` stage renders an animated cursor that travels from the previous action position to the next with configurable duration and easing, then hides after a configurable timeout.
 
 ### Basic usage
 
@@ -4789,7 +4799,8 @@ await Recast
   opacity: 0.9,         // Opacity 0.0-1.0. Default: 0.9
   shadow: true,         // Drop shadow. Default: true
   easing: 'ease-out',   // Movement easing. Default: 'ease-in-out'
-  hideAfterMs: 500,     // Fade out delay after last action. Default: 500
+  moveDurationMs: 250,  // Maximum travel time to each position. Default: 250
+  hideAfterMs: 500,     // Visible time after reaching a position. Default: 500
 })
 ```
 

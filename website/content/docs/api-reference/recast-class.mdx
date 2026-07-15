@@ -200,7 +200,8 @@ Render an animated cursor that moves between action positions.
 | `color` | `string` | `'#FFFFFF'` | Dot color (hex) |
 | `opacity` | `number` | `0.9` | Opacity 0.0-1.0 |
 | `easing` | `string` | `'ease-in-out'` | Movement easing |
-| `hideAfterMs` | `number` | `500` | Fade-out delay after last action |
+| `moveDurationMs` | `number` | `250` | Maximum travel time to the next pointer position |
+| `hideAfterMs` | `number` | `500` | Visible time after reaching a position |
 | `shadow` | `boolean` | `true` | Drop shadow on cursor |
 | `approachMs` | `number` | `500` | Hold duration for marker-driven clicks ([`click()`](/docs/helpers/click)) — the cursor glides over the held, painted target |
 | `filter` | `(action: TraceAction) => boolean` | — | Filter which actions generate cursor positions |
