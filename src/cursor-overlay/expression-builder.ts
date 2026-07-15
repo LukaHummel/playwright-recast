@@ -6,16 +6,22 @@ interface Resolution {
   height: number
 }
 
-/** How long before a click the cursor appears (seconds) */
+/** Default pre-click lead used to avoid animating across a loading page. */
 const APPEAR_BEFORE = 0.5
-/** How long after a click the cursor stays visible (seconds) */
-const VISIBLE_AFTER = 0.2
-/** How long the cursor moves to the click position (seconds) */
-const MOVE_DURATION = 0.25
-/** Offset in viewport px — cursor arrives from this offset above-left */
-const ARRIVE_OFFSET = 40
+/** Offset in viewport px used before the first recorded pointer position. */
+const INITIAL_OFFSET = 40
 /** Smallest pre-click lead, even when the target appeared at the last moment */
 const MIN_LEAD = 0.15
+/** Keep ffmpeg interpolation denominators non-zero for coincident positions. */
+const MIN_MOVE_DURATION = 0.05
+
+interface TrajectoryPoint {
+  x: number
+  y: number
+  t: number
+  lead: number
+  glide: boolean
+}
 
 /**
  * How long before a click the cursor should appear, trimmed by the action's
@@ -29,13 +35,13 @@ function appearLead(autoWaitSec: number | undefined): number {
 }
 
 /**
- * Build ffmpeg overlay x/y expressions for per-click cursor animation.
- * Cursor appears briefly before each click, moves quickly to click position,
- * then disappears shortly after.
+ * Build ffmpeg overlay x/y expressions for animated cursor movement.
+ * Each recorded pointer position is reached at its trace timestamp. Movement
+ * starts at the previous position and lasts no longer than moveDurationMs.
  */
 export function buildOverlayExpressions(
   keyframes: CursorKeyframe[],
-  _config: ResolvedCursorOverlayConfig,
+  config: ResolvedCursorOverlayConfig,
   viewport: Resolution,
   srcRes: Resolution,
 ): { x: string; y: string } {
@@ -58,50 +64,74 @@ export function buildOverlayExpressions(
       y: Math.max(0, Math.round(kf.y * scaleY)),
       t: Number(kf.videoTimeSec.toFixed(4)),
       lead,
-      // Move can't outlast the lead, otherwise the cursor would still be
-      // gliding when the click fires.
-      moveDur: Math.min(MOVE_DURATION, lead),
       glide,
     }
   })
 
   return {
-    x: buildPerClickAxis(points, 'x', scaleX),
-    y: buildPerClickAxis(points, 'y', scaleY),
+    x: buildTrajectoryAxis(points, 'x', scaleX, config),
+    y: buildTrajectoryAxis(points, 'y', scaleY, config),
   }
 }
 
-function buildPerClickAxis(
-  points: Array<{ x: number; y: number; t: number; lead: number; moveDur: number; glide: boolean }>,
+function moveDuration(
+  points: Array<Pick<TrajectoryPoint, 't' | 'lead'>>,
+  index: number,
+  configuredDuration: number,
+): number {
+  const available = index === 0
+    ? configuredDuration
+    : Math.max(MIN_MOVE_DURATION, points[index]!.t - points[index - 1]!.t)
+  return Math.min(configuredDuration, points[index]!.lead, available)
+}
+
+function progressExpression(easing: ResolvedCursorOverlayConfig['easing']): string {
+  switch (easing) {
+    case 'linear':
+      return 'ld(0)'
+    case 'ease-out':
+      return '(1-(1-ld(0))*(1-ld(0)))'
+    case 'ease-in-out':
+    default:
+      return '(3*ld(0)*ld(0)-2*ld(0)*ld(0)*ld(0))'
+  }
+}
+
+function buildTrajectoryAxis(
+  points: TrajectoryPoint[],
   axis: 'x' | 'y',
   scale: number,
+  config: ResolvedCursorOverlayConfig,
 ): string {
   if (points.length === 0) return '0'
 
-  const baseOffset = Math.round(ARRIVE_OFFSET * scale)
+  const configuredDuration = Math.max(MIN_MOVE_DURATION, config.moveDurationMs / 1000)
+  const visibleAfter = Math.max(0, config.hideAfterMs / 1000)
+  const initialOffset = Math.round(INITIAL_OFFSET * scale)
+  const easedProgress = progressExpression(config.easing)
   const segments: string[] = []
 
-  for (const p of points) {
-    const target = p[axis]
-    const offset = p.glide ? baseOffset : 0 // no slide-in for late-appearing targets
-    const start = target - offset // arrive from above-left
-    const moveStart = p.t - p.lead
-    const moveEnd = moveStart + p.moveDur
-
-    // During movement: ease-out from offset to target
-    // After movement: stay at target until disappear
+  // Later movements take priority when pointer visibility windows overlap.
+  for (let i = points.length - 1; i >= 0; i--) {
+    const point = points[i]!
+    const target = point[axis]
+    const previous = i === 0 ? target - initialOffset : points[i - 1]![axis]
+    // A target that appeared only after a long auto-wait has no stable page
+    // context to glide across, so retain the existing appear-at-target guard.
+    const start = point.glide ? previous : target
+    const duration = moveDuration(points, i, configuredDuration)
+    const moveStart = point.t - duration
     const segment =
-      `if(between(t\\,${moveStart.toFixed(4)}\\,${moveEnd.toFixed(4)})\\,` +
-      `st(0\\,(t-${moveStart.toFixed(4)})/${p.moveDur.toFixed(4)})\\;` +
-      `${start}+(${offset})*(1-(1-ld(0))*(1-ld(0)))\\,` + // ease-out
+      `if(between(t\\,${moveStart.toFixed(4)}\\,${point.t.toFixed(4)})\\,` +
+      `st(0\\,(t-${moveStart.toFixed(4)})/${duration.toFixed(4)})\\;` +
+      `${start}+(${target - start})*${easedProgress}\\,` +
       `${target})`
 
     segments.push(
-      `if(between(t\\,${moveStart.toFixed(4)}\\,${(p.t + VISIBLE_AFTER).toFixed(4)})\\,${segment}\\,`
+      `if(between(t\\,${moveStart.toFixed(4)}\\,${(point.t + visibleAfter).toFixed(4)})\\,${segment}\\,`
     )
   }
 
-  // Default position (when hidden, doesn't matter but need valid value)
   let expr = segments.join('')
   expr += '0'
   expr += ')'.repeat(segments.length)
@@ -110,17 +140,25 @@ function buildPerClickAxis(
 }
 
 /**
- * Build the enable expression for per-click cursor visibility.
- * Cursor is visible from APPEAR_BEFORE before each click to VISIBLE_AFTER after.
+ * Cursor is visible while travelling to each position and until hideAfterMs
+ * after it arrives.
  */
 export function buildEnableExpression(
   keyframes: CursorKeyframe[],
+  config: ResolvedCursorOverlayConfig,
 ): string {
   if (keyframes.length === 0) return '0'
 
-  const windows = keyframes.map(kf => {
-    const start = (kf.videoTimeSec - appearLead(kf.autoWaitSec)).toFixed(4)
-    const end = (kf.videoTimeSec + VISIBLE_AFTER).toFixed(4)
+  const configuredDuration = Math.max(MIN_MOVE_DURATION, config.moveDurationMs / 1000)
+  const visibleAfter = Math.max(0, config.hideAfterMs / 1000)
+  const points = keyframes.map(kf => ({
+    t: Number(kf.videoTimeSec.toFixed(4)),
+    lead: appearLead(kf.autoWaitSec),
+  }))
+  const windows = points.map((point, index) => {
+    const duration = moveDuration(points, index, configuredDuration)
+    const start = (point.t - duration).toFixed(4)
+    const end = (point.t + visibleAfter).toFixed(4)
     return `between(t\\,${start}\\,${end})`
   })
 
@@ -136,5 +174,5 @@ export interface FadeTiming {
 }
 
 export function buildFadeTiming(): null {
-  return null // No longer used — visibility is per-click via enable expression
+  return null
 }

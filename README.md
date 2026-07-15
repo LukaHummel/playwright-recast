@@ -51,7 +51,7 @@ await Recast
 - **Styled subtitle burn-in** — Configurable font, size, color, background box with opacity, padding, position. Smart punctuation-based chunking for single-line display.
 - **playwright-bdd support** — First-class integration with playwright-bdd Gherkin steps. Doc strings become voiceover narration.
 - **Click highlighting** — Animated ripple effect at click positions with optional click sound. Configurable color, opacity, radius, duration.
-- **Cursor overlay** — Animated cursor appears before each click, moves to the click position with ease-out animation, then disappears. Bundled arrow cursor or custom image.
+- **Cursor overlay** — Animated cursor travels between click positions with configurable duration, easing, and post-arrival visibility. Bundled arrow cursor or custom image.
 - **Animated zoom with easing** — Auto-zoom uses customizable easing functions (ease-in-out, ease-out, cubic-bezier, or custom JS functions) with smooth zoom-to-zoom panning.
 - **Frame interpolation** — Smooth out choppy browser recordings with ffmpeg minterpolate. Blend, duplicate, or motion-compensated modes with multi-pass support.
 - **Step helpers** — `narrate()`, `highlight()`, `zoom()`, `pace()`, `click()`, `markClick()`, `waitForNarration()` — importable helpers for Playwright step definitions. `narrate/highlight/zoom/click` write marker steps directly into the trace zip, so the pipeline picks them up automatically via `subtitlesFromTrace()` (no `report.json` or extra pipeline calls needed).
