@@ -440,8 +440,10 @@ interface CursorOverlayConfig {
   color?: string                            // Default: '#FFFFFF'
   opacity?: number                          // Default: 0.9
   easing?: 'linear' | 'ease-in-out' | 'ease-out'  // Default: 'ease-in-out'
+  moveDurationMs?: number                   // Default: 250
   hideAfterMs?: number                      // Default: 500
   shadow?: boolean                          // Default: true
+  approachMs?: number                       // Default: 500
   filter?: (action: TraceAction) => boolean
 }
 ```

@@ -13,7 +13,9 @@ export interface CursorOverlayConfig {
   opacity?: number
   /** Interpolation easing between positions. Default: 'ease-in-out' */
   easing?: 'linear' | 'ease-in-out' | 'ease-out'
-  /** Ms after last action before cursor fades out. Default: 500 */
+  /** Maximum time spent travelling to the next pointer position in ms. Default: 250 */
+  moveDurationMs?: number
+  /** Ms after reaching a position before the cursor hides. Default: 500 */
   hideAfterMs?: number
   /** Show drop shadow on the default cursor dot. Default: true */
   shadow?: boolean
