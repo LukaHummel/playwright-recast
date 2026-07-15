@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Features
+
+- **Organic text typing helper** — Added `typeText(locator, text, { delayMs? })`, which replaces a field's value with visible character-by-character input and bounded ±35% timing variation. Configure the suite-wide average with `setupRecast(test, { typingDelayMs })`; per-call speed overrides remain available, and the helper works without setup using a 100 ms default.
+
 ## 0.19.0 (2026-05-27)
 
 ### Features
