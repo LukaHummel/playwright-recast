@@ -8,6 +8,7 @@ describe('resolveCursorOverlayConfig', () => {
     expect(resolved.color).toBe('#FFFFFF')
     expect(resolved.opacity).toBe(0.9)
     expect(resolved.easing).toBe('ease-in-out')
+    expect(resolved.moveDurationMs).toBe(250)
     expect(resolved.hideAfterMs).toBe(500)
     expect(resolved.shadow).toBe(true)
   })
@@ -35,6 +36,11 @@ describe('resolveCursorOverlayConfig', () => {
     expect(resolveCursorOverlayConfig({}).approachMs).toBe(500)
     expect(resolveCursorOverlayConfig({ approachMs: 800 }).approachMs).toBe(800)
   })
+
+  it('defaults moveDurationMs to 250 and honors an override', () => {
+    expect(resolveCursorOverlayConfig({}).moveDurationMs).toBe(250)
+    expect(resolveCursorOverlayConfig({ moveDurationMs: 600 }).moveDurationMs).toBe(600)
+  })
 })
 
 describe('DEFAULT_CURSOR_OVERLAY', () => {
@@ -43,6 +49,7 @@ describe('DEFAULT_CURSOR_OVERLAY', () => {
     expect(DEFAULT_CURSOR_OVERLAY.color).toBeDefined()
     expect(DEFAULT_CURSOR_OVERLAY.opacity).toBeDefined()
     expect(DEFAULT_CURSOR_OVERLAY.easing).toBeDefined()
+    expect(DEFAULT_CURSOR_OVERLAY.moveDurationMs).toBeDefined()
     expect(DEFAULT_CURSOR_OVERLAY.hideAfterMs).toBeDefined()
     expect(DEFAULT_CURSOR_OVERLAY.shadow).toBeDefined()
   })

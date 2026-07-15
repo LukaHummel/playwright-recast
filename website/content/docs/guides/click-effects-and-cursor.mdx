@@ -92,9 +92,12 @@ await Recast
   opacity: 0.9,         // Opacity 0.0-1.0. Default: 0.9
   shadow: true,         // Drop shadow. Default: true
   easing: 'ease-out',   // Movement easing. Default: 'ease-in-out'
-  hideAfterMs: 500,     // Fade out delay after last action. Default: 500
+  moveDurationMs: 250,  // Maximum travel time to each position. Default: 250
+  hideAfterMs: 500,     // Visible time after reaching a position. Default: 500
 })
 ```
+
+The first position arrives from a small upper-left offset. Each later movement starts at the preceding pointer position and lands at the next action timestamp. `moveDurationMs` is capped to the available time between closely spaced actions, while `hideAfterMs` controls how long the cursor remains visible after landing.
 
 ### Custom cursor image
 
@@ -155,10 +158,10 @@ import { click } from 'playwright-recast'
 await click(page.getByRole('button', { name: 'Get started' }))
 ```
 
-For each marked click, the renderer **holds the painted frame** at the click and lets the cursor play its full approach over it, then fires the ripple — a deliberate "point and click" beat instead of a glide over a loading screen. The hold duration is `approachMs` on `cursorOverlay`:
+For each marked click, the renderer **holds the painted frame** at the click and lets the cursor play its full approach over it, then fires the ripple — a deliberate "point and click" beat instead of a glide over a loading screen. The hold duration is `approachMs` on `cursorOverlay`. Keep it at least as large as `moveDurationMs` so the complete movement plays over the held frame:
 
 ```typescript
-.cursorOverlay({ approachMs: 600 })   // default 500ms
+.cursorOverlay({ moveDurationMs: 300, approachMs: 600 })
 .clickEffect({ sound: true })
 ```
 

@@ -235,7 +235,7 @@ function renderWithCursorOverlay(
 
   // Build per-click position and visibility expressions
   const { x: xExpr, y: yExpr } = buildOverlayExpressions(keyframes, config, viewport, srcRes)
-  const enableExpr = buildEnableExpression(keyframes)
+  const enableExpr = buildEnableExpression(keyframes, config)
 
   const escapedClipPath = cursorClipPath.replace(/'/g, "'\\''").replace(/\\/g, '\\\\')
 
