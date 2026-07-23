@@ -71,13 +71,13 @@ await Recast
 
 ```bash
 # Basic trace to video
-npx playwright-recast -i ./test-results/trace.zip -o demo.mp4
+pnpm exec playwright-recast -i ./test-results/trace.zip -o demo.mp4
 
 # With speed processing
-npx playwright-recast -i ./test-results/trace.zip -o demo.mp4 --speed-idle 4.0
+pnpm exec playwright-recast -i ./test-results/trace.zip -o demo.mp4 --speed-idle 4.0
 
 # With subtitles
-npx playwright-recast -i ./test-results/trace.zip -o demo.mp4 --srt narration.srt --burn-subs
+pnpm exec playwright-recast -i ./test-results/trace.zip -o demo.mp4 --srt narration.srt --burn-subs
 ```
 
 ## To buffer

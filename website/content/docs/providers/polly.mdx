@@ -8,7 +8,7 @@ description: Generate voiceover narration using Amazon Polly text-to-speech.
 The Polly provider uses the `@aws-sdk/client-polly` package as a peer dependency. Install it alongside playwright-recast:
 
 ```bash
-npm install @aws-sdk/client-polly
+pnpm add @aws-sdk/client-polly
 ```
 
 Credentials are resolved via the AWS SDK default chain — env vars, `~/.aws/credentials`, SSO, or an IAM role attached to your EC2/ECS/Fargate/Lambda compute. No explicit keys are required when running on AWS infra.
@@ -91,8 +91,8 @@ Minimum IAM policy:
 ## CLI usage
 
 ```bash
-npx playwright-recast -i ./traces --srt narration.srt --provider polly --voice Joanna
-npx playwright-recast -i ./traces --srt narration.srt --provider polly --voice Matthew
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider polly --voice Joanna
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider polly --voice Matthew
 ```
 
 ## Environment variables

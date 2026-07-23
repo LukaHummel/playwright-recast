@@ -69,7 +69,7 @@ Replace it entirely with:
 
 - [ ] **Step 2: Run the test to verify it fails**
 
-Run: `npx vitest run tests/unit/pipeline/subtitles-from-trace.test.ts`
+Run: `pnpm exec vitest run tests/unit/pipeline/subtitles-from-trace.test.ts`
 Expected: FAIL on the new test — current code drops line `A`, so it returns only one entry (`text: 'B'`, `index: 1`) instead of the two expected entries.
 
 - [ ] **Step 3: Change the builder to clamp instead of drop**
@@ -119,7 +119,7 @@ Replace with:
 
 - [ ] **Step 4: Run the test to verify it passes**
 
-Run: `npx vitest run tests/unit/pipeline/subtitles-from-trace.test.ts`
+Run: `pnpm exec vitest run tests/unit/pipeline/subtitles-from-trace.test.ts`
 Expected: PASS (all tests in the file, including the rewritten one).
 
 - [ ] **Step 5: Commit**
@@ -180,7 +180,7 @@ In `tests/unit/voiceover/freezes.test.ts`, add this test inside the `describe('g
 
 - [ ] **Step 2: Run the test to verify it fails**
 
-Run: `npx vitest run tests/unit/voiceover/freezes.test.ts -t "no-autoWait pattern"`
+Run: `pnpm exec vitest run tests/unit/voiceover/freezes.test.ts -t "no-autoWait pattern"`
 Expected: FAIL — current code takes the `windowDuration < 100` branch, so `result.voiceover.freezes` is empty (length 0, not 1) and `entries[0].outputEndMs` is 40, not > 3500.
 
 - [ ] **Step 3: Remove the early-skip branch**
@@ -232,7 +232,7 @@ Leave the entire `else { ... }` overflow block below it unchanged.
 
 - [ ] **Step 4: Run the test to verify it passes**
 
-Run: `npx vitest run tests/unit/voiceover/freezes.test.ts`
+Run: `pnpm exec vitest run tests/unit/voiceover/freezes.test.ts`
 Expected: PASS for all tests in the file (the new tiny-window test plus the existing overflow/fit/approach-hold tests, which are unaffected because they use windows ≥ 1000ms).
 
 - [ ] **Step 5: Commit**
@@ -292,7 +292,7 @@ describe('filterRenderableSubtitles', () => {
 
 - [ ] **Step 2: Run the test to verify it fails**
 
-Run: `npx vitest run tests/unit/subtitles/renderable.test.ts`
+Run: `pnpm exec vitest run tests/unit/subtitles/renderable.test.ts`
 Expected: FAIL — module `src/subtitles/renderable` does not exist yet (import/resolution error).
 
 - [ ] **Step 3: Create the helper**
@@ -320,7 +320,7 @@ export function filterRenderableSubtitles(
 
 - [ ] **Step 4: Run the test to verify it passes**
 
-Run: `npx vitest run tests/unit/subtitles/renderable.test.ts`
+Run: `pnpm exec vitest run tests/unit/subtitles/renderable.test.ts`
 Expected: PASS (both cases).
 
 - [ ] **Step 5: Wire the helper into the renderer's burn/embed block (only)**
@@ -416,7 +416,7 @@ Do NOT change the `trace.subtitles` reads used for zoom (the `hasZoom` computati
 
 - [ ] **Step 6: Typecheck**
 
-Run: `npm run typecheck`
+Run: `pnpm run typecheck`
 Expected: PASS (no errors). `renderableSubtitles` is `SubtitleEntry[]`, so the previous `trace.subtitles!` non-null assertions are no longer needed at these sites.
 
 - [ ] **Step 7: Commit**
@@ -441,12 +441,12 @@ Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>"
 
 - [ ] **Step 1: Run the full unit test suite**
 
-Run: `npm test`
+Run: `pnpm test`
 Expected: PASS — all existing tests plus the three added/updated ones. No regressions.
 
 - [ ] **Step 2: Typecheck the whole project**
 
-Run: `npm run typecheck`
+Run: `pnpm run typecheck`
 Expected: PASS with no errors.
 
 - [ ] **Step 3: Manual end-to-end check (records the result, no code change)**

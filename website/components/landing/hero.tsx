@@ -17,7 +17,7 @@ function GitHubIcon({ className }: { className?: string }) {
 
 function NpmInstallBadge() {
   const [copied, setCopied] = useState(false)
-  const command = 'npm install playwright-recast'
+  const command = 'pnpm add playwright-recast'
 
   return (
     <button

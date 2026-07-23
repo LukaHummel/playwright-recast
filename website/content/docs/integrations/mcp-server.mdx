@@ -14,13 +14,13 @@ The key insight: the AI agent becomes the voiceover writer. Instead of templates
 The MCP server binary is included with playwright-recast:
 
 ```bash
-npm install playwright-recast
+pnpm add playwright-recast
 ```
 
 Run it directly:
 
 ```bash
-npx -y -p playwright-recast recast-mcp
+pnpm --package=playwright-recast dlx recast-mcp
 ```
 
 Or configure it in your MCP client (see [Configuration](#configuration) below).

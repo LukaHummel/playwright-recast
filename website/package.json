@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "npx serve out",
+    "start": "pnpm dlx serve out",
     "postinstall": "fumadocs-mdx"
   },
   "dependencies": {
@@ -28,5 +28,6 @@
     "postcss": "^8",
     "tailwindcss": "^4",
     "typescript": "^5.9"
-  }
+  },
+  "packageManager": "pnpm@11.7.0"
 }

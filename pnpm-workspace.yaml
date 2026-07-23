@@ -1,0 +1,3 @@
+# undici-types 6.21.0 has a known provenance gap; allow this known transitive release only.
+trustPolicyExclude:
+  - undici-types@6.21.0

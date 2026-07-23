@@ -79,10 +79,10 @@ Built-in rules, custom rules, and transform can be combined. They are applied in
 
 ```bash
 # Built-in sanitization
-npx playwright-recast -i ./traces --text-processing --provider openai
+pnpm exec playwright-recast -i ./traces --text-processing --provider openai
 
 # Custom rules from JSON file
-npx playwright-recast -i ./traces --text-processing-config ./rules.json --provider elevenlabs
+pnpm exec playwright-recast -i ./traces --text-processing-config ./rules.json --provider elevenlabs
 ```
 
 ## Tips

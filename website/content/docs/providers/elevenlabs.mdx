@@ -8,7 +8,7 @@ description: Generate voiceover narration using the ElevenLabs text-to-speech AP
 The ElevenLabs provider uses the `@elevenlabs/elevenlabs-js` package as a peer dependency. Install it alongside playwright-recast:
 
 ```bash
-npm install @elevenlabs/elevenlabs-js
+pnpm add @elevenlabs/elevenlabs-js
 ```
 
 Set your API key as an environment variable:
@@ -80,8 +80,8 @@ ElevenLabsProvider({
 ## CLI usage
 
 ```bash
-npx playwright-recast -i ./traces --srt narration.srt --provider elevenlabs --voice onwK4e9ZLuTAKqWW03F9
-npx playwright-recast -i ./traces --srt narration.srt --provider elevenlabs --voice onwK4e9ZLuTAKqWW03F9 --model eleven_multilingual_v2
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider elevenlabs --voice onwK4e9ZLuTAKqWW03F9
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider elevenlabs --voice onwK4e9ZLuTAKqWW03F9 --model eleven_multilingual_v2
 ```
 
 ## Environment variable

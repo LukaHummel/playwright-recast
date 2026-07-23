@@ -44,7 +44,7 @@ export interface RecordingResult {
 
 - [ ] **Step 2: Verify it compiles**
 
-Run: `cd ~/Work/playwright-recast && npx tsc --noEmit`
+Run: `cd ~/Work/playwright-recast && pnpm exec tsc --noEmit`
 Expected: no errors
 
 - [ ] **Step 3: Commit**
@@ -145,7 +145,7 @@ export async function record(
 
 - [ ] **Step 2: Verify it compiles**
 
-Run: `cd ~/Work/playwright-recast && npx tsc --noEmit`
+Run: `cd ~/Work/playwright-recast && pnpm exec tsc --noEmit`
 Expected: no errors
 
 - [ ] **Step 3: Commit**
@@ -237,7 +237,7 @@ main().catch((err) => {
 
 - [ ] **Step 2: Verify it compiles**
 
-Run: `cd ~/Work/playwright-recast && npx tsc --noEmit`
+Run: `cd ~/Work/playwright-recast && pnpm exec tsc --noEmit`
 Expected: no errors
 
 - [ ] **Step 3: Commit**
@@ -320,7 +320,7 @@ A directory path containing:
 - `trace.zip` — Playwright trace
 - `*.webm` — screen recording
 
-Produced by: `npx recast-studio <url>`
+Produced by: `pnpm dlx --package playwright-recast recast-studio <url>`
 
 ## Workflow
 

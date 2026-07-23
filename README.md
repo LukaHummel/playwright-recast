@@ -62,7 +62,7 @@ await Recast
 - **Intro/outro** — Prepend/append branded video clips with smooth crossfade transitions. Audio preserved.
 - **MCP server** — AI-assisted video creation via Model Context Protocol. Record, analyze, and render through any MCP-compatible client (Claude Code, etc.).
 - **recast-studio** — Record browser sessions via Playwright Codegen, then generate videos with a Claude Code skill. No code required.
-- **CLI included** — `npx playwright-recast -i trace.zip -o demo.mp4` — no code needed.
+- **CLI included** — `pnpm exec playwright-recast -i trace.zip -o demo.mp4` — no code needed.
 - **Zero lock-in** — Every stage is optional. Use just the trace parser, just the subtitle generator, or the full pipeline.
 
 ---
@@ -72,7 +72,7 @@ await Recast
 ### Install
 
 ```bash
-npm install playwright-recast
+pnpm add playwright-recast
 # or
 bun add playwright-recast
 ```
@@ -96,19 +96,19 @@ sudo apt install ffmpeg
 
 ```bash
 # Basic — trace to video
-npx playwright-recast -i ./test-results/trace.zip -o demo.mp4
+pnpm exec playwright-recast -i ./test-results/trace.zip -o demo.mp4
 
 # With speed processing
-npx playwright-recast -i ./traces --speed-idle 4.0 --speed-action 1.0
+pnpm exec playwright-recast -i ./traces --speed-idle 4.0 --speed-action 1.0
 
 # With external SRT subtitles
-npx playwright-recast -i ./traces --srt narration.srt --burn-subs
+pnpm exec playwright-recast -i ./traces --srt narration.srt --burn-subs
 
 # With TTS voiceover (OpenAI)
-npx playwright-recast -i ./traces --srt narration.srt --provider openai --voice nova
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider openai --voice nova
 
 # With TTS voiceover (ElevenLabs)
-npx playwright-recast -i ./traces --srt narration.srt --provider elevenlabs --voice onwK4e9ZLuTAKqWW03F9
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider elevenlabs --voice onwK4e9ZLuTAKqWW03F9
 ```
 
 ### Programmatic API
@@ -305,8 +305,8 @@ Text processing writes to `ttsText` — the voiceover uses cleaned text while bu
 
 **CLI:**
 ```bash
-npx playwright-recast -i ./traces --text-processing --provider openai
-npx playwright-recast -i ./traces --text-processing-config ./rules.json --provider elevenlabs
+pnpm exec playwright-recast -i ./traces --text-processing --provider openai
+pnpm exec playwright-recast -i ./traces --text-processing-config ./rules.json --provider elevenlabs
 ```
 
 ---
@@ -367,7 +367,7 @@ PollyProvider({
 Install the SDK alongside this package:
 
 ```bash
-npm install @aws-sdk/client-polly
+pnpm add @aws-sdk/client-polly
 ```
 
 Resolves credentials from `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` (and optional `AWS_SESSION_TOKEN`), shared config, or — preferred on AWS — an attached IAM role.
@@ -578,9 +578,9 @@ To emphasise specific clicks, mark them in your test with the `click()` / `markC
 
 **CLI:**
 ```bash
-npx playwright-recast -i ./traces --click-effect
-npx playwright-recast -i ./traces --click-effect --click-sound click.mp3
-npx playwright-recast -i ./traces --click-effect-config config.json
+pnpm exec playwright-recast -i ./traces --click-effect
+pnpm exec playwright-recast -i ./traces --click-effect --click-sound click.mp3
+pnpm exec playwright-recast -i ./traces --click-effect-config config.json
 ```
 
 ---
@@ -617,9 +617,9 @@ With `passes: 2`, FPS is distributed geometrically across passes (e.g., 25fps ->
 
 **CLI:**
 ```bash
-npx playwright-recast -i ./traces --interpolate
-npx playwright-recast -i ./traces --interpolate --interpolate-fps 30
-npx playwright-recast -i ./traces --interpolate --interpolate-mode blend --interpolate-passes 2
+pnpm exec playwright-recast -i ./traces --interpolate
+pnpm exec playwright-recast -i ./traces --interpolate --interpolate-fps 30
+pnpm exec playwright-recast -i ./traces --interpolate --interpolate-mode blend --interpolate-passes 2
 ```
 
 ---
@@ -695,13 +695,13 @@ Add to your project's `.mcp.json`:
 {
   "mcpServers": {
     "recast": {
-      "command": "npx",
+      "command": "pnpm",
       "args": [
-        "-y",
-        "-p", "playwright-recast",
-        "-p", "@playwright/test",
-        "-p", "openai",
-        "-p", "@elevenlabs/elevenlabs-js",
+        "dlx",
+        "--package", "playwright-recast",
+        "--package", "@playwright/test",
+        "--package", "openai",
+        "--package", "@elevenlabs/elevenlabs-js",
         "recast-mcp"
       ],
       "env": {
@@ -743,8 +743,8 @@ Contributions welcome! Please check the [issues](https://github.com/ThePatriczek
 ```bash
 git clone https://github.com/ThePatriczek/playwright-recast.git
 cd playwright-recast
-npm install
-npm test
+pnpm install
+pnpm test
 ```
 
 ---

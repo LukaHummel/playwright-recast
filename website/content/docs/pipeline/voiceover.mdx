@@ -93,13 +93,13 @@ Text processing cleans smart quotes, em dashes, and other typographic characters
 
 ```bash
 # OpenAI
-npx playwright-recast -i ./traces --srt narration.srt --provider openai --voice nova
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider openai --voice nova
 
 # ElevenLabs
-npx playwright-recast -i ./traces --srt narration.srt --provider elevenlabs --voice onwK4e9ZLuTAKqWW03F9
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider elevenlabs --voice onwK4e9ZLuTAKqWW03F9
 
 # Amazon Polly
-npx playwright-recast -i ./traces --srt narration.srt --provider polly --voice Joanna
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider polly --voice Joanna
 ```
 
 ## Tips

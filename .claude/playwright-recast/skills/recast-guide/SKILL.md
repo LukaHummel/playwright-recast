@@ -54,16 +54,16 @@ await Recast
 
 ```bash
 # Basic
-npx playwright-recast -i ./test-results -o demo.mp4
+pnpm exec playwright-recast -i ./test-results -o demo.mp4
 
 # With TTS voiceover
-npx playwright-recast -i ./traces --srt narration.srt --provider openai --voice nova
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider openai --voice nova
 
 # With speed processing
-npx playwright-recast -i trace.zip --speed-idle 4 --speed-action 1
+pnpm exec playwright-recast -i trace.zip --speed-idle 4 --speed-action 1
 
 # Burn subtitles into video
-npx playwright-recast -i ./traces --srt narration.srt --burn-subs
+pnpm exec playwright-recast -i ./traces --srt narration.srt --burn-subs
 ```
 
 ## Pipeline Stages
@@ -304,8 +304,8 @@ For perfect audio-video sync, pre-generate TTS, measure real durations, and comp
 
 ### Generate video from existing test run
 ```bash
-npx playwright test --trace on
-npx playwright-recast -i ./test-results -o demo.mp4 --srt narration.srt --provider openai --voice nova
+pnpm exec playwright test --trace on
+pnpm exec playwright-recast -i ./test-results -o demo.mp4 --srt narration.srt --provider openai --voice nova
 ```
 
 ### Hide login/setup from video

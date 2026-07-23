@@ -336,8 +336,8 @@ Integration testing (manual):
 
 ## Verification
 
-1. `npm run build` passes (TypeScript compiles)
-2. `npm test` passes (unit tests)
+1. `pnpm run build` passes (TypeScript compiles)
+2. `pnpm test` passes (unit tests)
 3. Manual test: `Recast.from(trace).parse().subtitlesFromTrace().voiceover(GeminiProvider()).render().toFile('test.mp4')` produces valid video with audio
-4. Docs build: `cd website && npm run build` succeeds
+4. Docs build: `cd website && pnpm run build` succeeds
 5. Each provider docs page renders correctly

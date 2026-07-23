@@ -213,7 +213,7 @@ export type { ClickEffectConfig, ClickEvent } from './types/click-effect.js'
 ## Verification
 
 1. **Unit tests** — `tests/unit/click-effect/` for ripple generation, sound track assembly, executor logic
-2. **Type check** — `npx tsc --noEmit`
+2. **Type check** — `pnpm exec tsc --noEmit`
 3. **Integration test** — process a trace with click actions, verify output video has ripple overlays
 4. **Manual test** — render demo video with `--click-effect`, check visual quality and timing
 5. **Audio test** — render with `--click-effect --click-sound click.mp3`, verify clicks are audible at correct times

@@ -68,13 +68,13 @@ Interpolation uses `scd=fdiff` with a threshold of 5 to detect scene transitions
 
 ```bash
 # Enable with defaults (60fps, mci mode)
-npx playwright-recast -i ./traces --interpolate
+pnpm exec playwright-recast -i ./traces --interpolate
 
 # Custom FPS
-npx playwright-recast -i ./traces --interpolate --interpolate-fps 30
+pnpm exec playwright-recast -i ./traces --interpolate --interpolate-fps 30
 
 # Blend mode with multi-pass
-npx playwright-recast -i ./traces --interpolate --interpolate-mode blend --interpolate-passes 2
+pnpm exec playwright-recast -i ./traces --interpolate --interpolate-mode blend --interpolate-passes 2
 ```
 
 ## Tips

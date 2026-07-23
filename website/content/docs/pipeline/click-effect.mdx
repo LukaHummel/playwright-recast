@@ -74,13 +74,13 @@ Click sounds are mixed into the audio track alongside voiceover. Volume is indep
 
 ```bash
 # Enable with defaults
-npx playwright-recast -i ./traces --click-effect
+pnpm exec playwright-recast -i ./traces --click-effect
 
 # With custom sound
-npx playwright-recast -i ./traces --click-effect --click-sound click.mp3
+pnpm exec playwright-recast -i ./traces --click-effect --click-sound click.mp3
 
 # With full config
-npx playwright-recast -i ./traces --click-effect-config config.json
+pnpm exec playwright-recast -i ./traces --click-effect-config config.json
 ```
 
 ## Tips

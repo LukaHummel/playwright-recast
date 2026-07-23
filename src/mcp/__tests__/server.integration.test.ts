@@ -9,7 +9,7 @@ const SERVER_PATH = path.resolve(ROOT, 'dist/mcp/server.js')
 
 describe('MCP server integration', () => {
   beforeAll(() => {
-    execSync('npm run build', { cwd: ROOT, stdio: 'pipe' })
+    execSync('pnpm run build', { cwd: ROOT, stdio: 'pipe' })
   })
 
   it('lists all 4 tools via MCP protocol', async () => {

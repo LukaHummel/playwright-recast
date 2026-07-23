@@ -19,7 +19,7 @@ Two pieces working together:
 
 ```
 # Step 1: Record (CLI)
-$ npx recast-studio https://app.codexis.cz
+$ pnpm dlx --package playwright-recast recast-studio https://app.codexis.cz
 🎬  Browser opened. Navigate and interact. Close when done.
 ✅  Trace saved to .recast-studio/trace.zip (38s, 9 actions)
 
@@ -108,7 +108,7 @@ The skill prompt instructs the agent to:
 
 1. **User closes browser immediately** — detect 0 actions, show error
 2. **No trace.zip after close** — `tracing.stop()` may fail if browser crashed; check file exists
-3. **load-storage for auth** — workflow: `npx playwright codegen --save-storage=auth.json`, then `npx recast-studio --load-storage=auth.json <url>`
+3. **load-storage for auth** — workflow: `pnpm exec playwright codegen --save-storage=auth.json`, then `pnpm dlx --package playwright-recast recast-studio --load-storage=auth.json <url>`
 4. **Skill invoked without trace** — skill checks directory has trace.zip, gives clear error
 
 ## Test Strategy

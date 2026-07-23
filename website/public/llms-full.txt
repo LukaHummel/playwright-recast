@@ -34,7 +34,7 @@ Every stage is optional and composable. Chain them to build your video processin
 ## Install the package
 
 ```bash
-npm install playwright-recast
+pnpm add playwright-recast
 ```
 
 Or with Bun:
@@ -104,23 +104,23 @@ Once installed, head to the [Quick Start](/docs/getting-started/quick-start) to 
 The fastest way to turn a Playwright trace into a video:
 
 ```bash
-npx playwright-recast -i ./test-results/trace.zip -o demo.mp4
+pnpm exec playwright-recast -i ./test-results/trace.zip -o demo.mp4
 ```
 
 ### Common CLI options
 
 ```bash
 # With speed processing
-npx playwright-recast -i ./traces --speed-idle 4.0 --speed-action 1.0
+pnpm exec playwright-recast -i ./traces --speed-idle 4.0 --speed-action 1.0
 
 # With external SRT subtitles
-npx playwright-recast -i ./traces --srt narration.srt --burn-subs
+pnpm exec playwright-recast -i ./traces --srt narration.srt --burn-subs
 
 # With TTS voiceover (OpenAI)
-npx playwright-recast -i ./traces --srt narration.srt --provider openai --voice nova
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider openai --voice nova
 
 # With TTS voiceover (ElevenLabs)
-npx playwright-recast -i ./traces --srt narration.srt --provider elevenlabs --voice onwK4e9ZLuTAKqWW03F9
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider elevenlabs --voice onwK4e9ZLuTAKqWW03F9
 ```
 
 See the [CLI Reference](/docs/cli) for all available flags.
@@ -212,7 +212,7 @@ test('dashboard demo', async ({ page }) => {
 Enable tracing in your Playwright config or run with the `--trace on` flag:
 
 ```bash
-npx playwright test tests/demo.spec.ts --trace on
+pnpm exec playwright test tests/demo.spec.ts --trace on
 ```
 
 This produces a `trace.zip` file in your `test-results/` directory.
@@ -222,7 +222,7 @@ This produces a `trace.zip` file in your `test-results/` directory.
 ### Option A: CLI (quick)
 
 ```bash
-npx playwright-recast -i ./test-results/demo-dashboard-demo/trace.zip -o demo.mp4
+pnpm exec playwright-recast -i ./test-results/demo-dashboard-demo/trace.zip -o demo.mp4
 ```
 
 ### Option B: Programmatic (full control)
@@ -249,7 +249,7 @@ await Recast
 Run it:
 
 ```bash
-npx tsx scripts/generate-video.ts
+pnpm exec tsx scripts/generate-video.ts
 ```
 
 ## 4. Add narration (optional)
@@ -368,7 +368,7 @@ ffmpeg -version
 ffprobe -version
 
 # Check playwright-recast
-npx playwright-recast --help
+pnpm exec playwright-recast --help
 ```
 
 ---
@@ -495,7 +495,7 @@ The parser reads the `trace.zip` and produces a structured representation contai
 
 ```bash
 # Parse is implicit in CLI mode — it always runs
-npx playwright-recast -i ./test-results/trace.zip -o demo.mp4
+pnpm exec playwright-recast -i ./test-results/trace.zip -o demo.mp4
 ```
 
 ## Tips
@@ -617,7 +617,7 @@ The speed processor analyzes the trace and classifies each segment:
 ## CLI equivalent
 
 ```bash
-npx playwright-recast -i ./traces --speed-idle 4.0 --speed-action 1.0
+pnpm exec playwright-recast -i ./traces --speed-idle 4.0 --speed-action 1.0
 ```
 
 ## Tips
@@ -725,10 +725,10 @@ subtitleStyle: {
 
 ```bash
 # With external SRT
-npx playwright-recast -i ./traces --srt narration.srt --burn-subs
+pnpm exec playwright-recast -i ./traces --srt narration.srt --burn-subs
 
 # Auto-generate from trace
-npx playwright-recast -i ./traces --burn-subs
+pnpm exec playwright-recast -i ./traces --burn-subs
 ```
 
 ## Tips
@@ -819,10 +819,10 @@ Built-in rules, custom rules, and transform can be combined. They are applied in
 
 ```bash
 # Built-in sanitization
-npx playwright-recast -i ./traces --text-processing --provider openai
+pnpm exec playwright-recast -i ./traces --text-processing --provider openai
 
 # Custom rules from JSON file
-npx playwright-recast -i ./traces --text-processing-config ./rules.json --provider elevenlabs
+pnpm exec playwright-recast -i ./traces --text-processing-config ./rules.json --provider elevenlabs
 ```
 
 ## Tips
@@ -907,10 +907,10 @@ Text processing cleans smart quotes, em dashes, and other typographic characters
 
 ```bash
 # OpenAI
-npx playwright-recast -i ./traces --srt narration.srt --provider openai --voice nova
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider openai --voice nova
 
 # ElevenLabs
-npx playwright-recast -i ./traces --srt narration.srt --provider elevenlabs --voice onwK4e9ZLuTAKqWW03F9
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider elevenlabs --voice onwK4e9ZLuTAKqWW03F9
 ```
 
 ## Tips
@@ -1092,10 +1092,10 @@ The animation uses ffmpeg `movie` + `overlay` filters with per-position `enable`
 
 ```bash
 # Enable with defaults
-npx playwright-recast -i ./traces --cursor-overlay
+pnpm exec playwright-recast -i ./traces --cursor-overlay
 
 # With custom config
-npx playwright-recast -i ./traces --cursor-overlay-config cursor.json
+pnpm exec playwright-recast -i ./traces --cursor-overlay-config cursor.json
 ```
 
 ## Tips
@@ -1177,13 +1177,13 @@ Click sounds are mixed into the audio track alongside voiceover. Volume is indep
 
 ```bash
 # Enable with defaults
-npx playwright-recast -i ./traces --click-effect
+pnpm exec playwright-recast -i ./traces --click-effect
 
 # With custom sound
-npx playwright-recast -i ./traces --click-effect --click-sound click.mp3
+pnpm exec playwright-recast -i ./traces --click-effect --click-sound click.mp3
 
 # With full config
-npx playwright-recast -i ./traces --click-effect-config config.json
+pnpm exec playwright-recast -i ./traces --click-effect-config config.json
 ```
 
 ## Tips
@@ -1323,13 +1323,13 @@ Interpolation uses `scd=fdiff` with a threshold of 5 to detect scene transitions
 
 ```bash
 # Enable with defaults (60fps, mci mode)
-npx playwright-recast -i ./traces --interpolate
+pnpm exec playwright-recast -i ./traces --interpolate
 
 # Custom FPS
-npx playwright-recast -i ./traces --interpolate --interpolate-fps 30
+pnpm exec playwright-recast -i ./traces --interpolate --interpolate-fps 30
 
 # Blend mode with multi-pass
-npx playwright-recast -i ./traces --interpolate --interpolate-mode blend --interpolate-passes 2
+pnpm exec playwright-recast -i ./traces --interpolate --interpolate-mode blend --interpolate-passes 2
 ```
 
 ## Tips
@@ -1576,10 +1576,10 @@ Splitting priority:
 
 ```bash
 # Basic render
-npx playwright-recast -i ./traces -o demo.mp4
+pnpm exec playwright-recast -i ./traces -o demo.mp4
 
 # With subtitle burn-in
-npx playwright-recast -i ./traces --srt narration.srt --burn-subs -o demo.mp4
+pnpm exec playwright-recast -i ./traces --srt narration.srt --burn-subs -o demo.mp4
 ```
 
 ## Tips
@@ -1597,7 +1597,7 @@ npx playwright-recast -i ./traces --srt narration.srt --burn-subs -o demo.mp4
 ## Usage
 
 ```bash
-npx playwright-recast --input <trace-dir-or-zip> [options]
+pnpm exec playwright-recast --input <trace-dir-or-zip> [options]
 ```
 
 The CLI provides a code-free way to convert Playwright traces into polished demo videos. Every feature available in the programmatic API has a corresponding CLI flag.
@@ -1678,43 +1678,43 @@ Text processing cleans subtitle text before sending to TTS providers (strips sma
 ### Basic trace to video
 
 ```bash
-npx playwright-recast -i ./test-results/trace.zip -o demo.mp4
+pnpm exec playwright-recast -i ./test-results/trace.zip -o demo.mp4
 ```
 
 ### Speed processing with subtitle burn-in
 
 ```bash
-npx playwright-recast -i ./traces --speed-idle 4.0 --speed-action 1.0 --burn-subs
+pnpm exec playwright-recast -i ./traces --speed-idle 4.0 --speed-action 1.0 --burn-subs
 ```
 
 ### External SRT with OpenAI voiceover
 
 ```bash
-npx playwright-recast -i ./traces --srt narration.srt --provider openai --voice nova
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider openai --voice nova
 ```
 
 ### ElevenLabs voiceover
 
 ```bash
-npx playwright-recast -i ./traces --srt narration.srt --provider elevenlabs --voice onwK4e9ZLuTAKqWW03F9
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider elevenlabs --voice onwK4e9ZLuTAKqWW03F9
 ```
 
 ### Click effects with custom sound
 
 ```bash
-npx playwright-recast -i ./traces --click-effect --click-sound click.mp3
+pnpm exec playwright-recast -i ./traces --click-effect --click-sound click.mp3
 ```
 
 ### Frame interpolation for smooth playback
 
 ```bash
-npx playwright-recast -i ./traces --interpolate --interpolate-fps 30 --interpolate-mode blend
+pnpm exec playwright-recast -i ./traces --interpolate --interpolate-fps 30 --interpolate-mode blend
 ```
 
 ### Full pipeline
 
 ```bash
-npx playwright-recast -i ./traces \
+pnpm exec playwright-recast -i ./traces \
   --srt narration.srt \
   --speed-idle 4.0 \
   --text-processing \
@@ -1729,7 +1729,7 @@ npx playwright-recast -i ./traces \
 ### Disable speed processing
 
 ```bash
-npx playwright-recast -i ./traces --no-speed -o raw.mp4
+pnpm exec playwright-recast -i ./traces --no-speed -o raw.mp4
 ```
 
 ---
@@ -1742,7 +1742,7 @@ npx playwright-recast -i ./traces --no-speed -o raw.mp4
 The OpenAI provider uses the `openai` npm package as a peer dependency. Install it alongside playwright-recast:
 
 ```bash
-npm install openai
+pnpm add openai
 ```
 
 Set your API key as an environment variable:
@@ -1807,8 +1807,8 @@ OpenAIProvider({
 ## CLI usage
 
 ```bash
-npx playwright-recast -i ./traces --srt narration.srt --provider openai --voice nova
-npx playwright-recast -i ./traces --srt narration.srt --provider openai --voice shimmer --tts-speed 1.2
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider openai --voice nova
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider openai --voice shimmer --tts-speed 1.2
 ```
 
 ## Environment variable
@@ -1827,7 +1827,7 @@ npx playwright-recast -i ./traces --srt narration.srt --provider openai --voice 
 The ElevenLabs provider uses the `@elevenlabs/elevenlabs-js` package as a peer dependency. Install it alongside playwright-recast:
 
 ```bash
-npm install @elevenlabs/elevenlabs-js
+pnpm add @elevenlabs/elevenlabs-js
 ```
 
 Set your API key as an environment variable:
@@ -1899,8 +1899,8 @@ ElevenLabsProvider({
 ## CLI usage
 
 ```bash
-npx playwright-recast -i ./traces --srt narration.srt --provider elevenlabs --voice onwK4e9ZLuTAKqWW03F9
-npx playwright-recast -i ./traces --srt narration.srt --provider elevenlabs --voice onwK4e9ZLuTAKqWW03F9 --model eleven_multilingual_v2
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider elevenlabs --voice onwK4e9ZLuTAKqWW03F9
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider elevenlabs --voice onwK4e9ZLuTAKqWW03F9 --model eleven_multilingual_v2
 ```
 
 ## Environment variable
@@ -3072,7 +3072,7 @@ playwright-recast has first-class support for [playwright-bdd](https://github.co
 Install both packages:
 
 ```bash
-npm install playwright-recast playwright-bdd
+pnpm add playwright-recast playwright-bdd
 ```
 
 Initialize the helpers in your fixtures file:
@@ -3224,13 +3224,13 @@ The recording uses `page.pause()` inside a Playwright Test, so tracing and video
 recast-studio is included with playwright-recast:
 
 ```bash
-npm install playwright-recast
+pnpm add playwright-recast
 ```
 
 ## Usage
 
 ```bash
-npx recast-studio <url>
+pnpm exec recast-studio <url>
 ```
 
 ### Options
@@ -3248,7 +3248,7 @@ npx recast-studio <url>
 ### Basic recording
 
 ```bash
-npx recast-studio https://myapp.example.com
+pnpm exec recast-studio https://myapp.example.com
 ```
 
 Opens the browser at the given URL. Interact with the page, then click "Resume" in the Inspector.
@@ -3256,7 +3256,7 @@ Opens the browser at the given URL. Interact with the page, then click "Resume" 
 ### Custom output directory
 
 ```bash
-npx recast-studio -o ./recordings/demo-1 https://myapp.example.com
+pnpm exec recast-studio -o ./recordings/demo-1 https://myapp.example.com
 ```
 
 ### With authentication
@@ -3264,7 +3264,7 @@ npx recast-studio -o ./recordings/demo-1 https://myapp.example.com
 If your app requires login, save auth state first using Playwright's storage state feature, then load it:
 
 ```bash
-npx recast-studio --load-storage auth.json https://myapp.example.com/dashboard
+pnpm exec recast-studio --load-storage auth.json https://myapp.example.com/dashboard
 ```
 
 The browser starts with the saved session, skipping the login flow.
@@ -3272,7 +3272,7 @@ The browser starts with the saved session, skipping the login flow.
 ### Custom viewport
 
 ```bash
-npx recast-studio --viewport 1280x720 https://myapp.example.com
+pnpm exec recast-studio --viewport 1280x720 https://myapp.example.com
 ```
 
 ## Output
@@ -3802,13 +3802,13 @@ await Recast
 
 ```bash
 # Basic trace to video
-npx playwright-recast -i ./test-results/trace.zip -o demo.mp4
+pnpm exec playwright-recast -i ./test-results/trace.zip -o demo.mp4
 
 # With speed processing
-npx playwright-recast -i ./test-results/trace.zip -o demo.mp4 --speed-idle 4.0
+pnpm exec playwright-recast -i ./test-results/trace.zip -o demo.mp4 --speed-idle 4.0
 
 # With subtitles
-npx playwright-recast -i ./test-results/trace.zip -o demo.mp4 --srt narration.srt --burn-subs
+pnpm exec playwright-recast -i ./test-results/trace.zip -o demo.mp4 --srt narration.srt --burn-subs
 ```
 
 ## To buffer
@@ -4318,10 +4318,10 @@ If you prefer the command line:
 
 ```bash
 # OpenAI
-npx playwright-recast -i ./traces --srt narration.srt --provider openai --voice nova
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider openai --voice nova
 
 # ElevenLabs
-npx playwright-recast -i ./traces --srt narration.srt --provider elevenlabs --voice onwK4e9ZLuTAKqWW03F9
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider elevenlabs --voice onwK4e9ZLuTAKqWW03F9
 ```
 
 ## Next steps
@@ -4869,19 +4869,19 @@ await Recast
 
 ```bash
 # Click effects with defaults
-npx playwright-recast -i ./traces --click-effect
+pnpm exec playwright-recast -i ./traces --click-effect
 
 # Click effects with custom sound
-npx playwright-recast -i ./traces --click-effect --click-sound click.mp3
+pnpm exec playwright-recast -i ./traces --click-effect --click-sound click.mp3
 
 # Click effects from JSON config
-npx playwright-recast -i ./traces --click-effect-config config.json
+pnpm exec playwright-recast -i ./traces --click-effect-config config.json
 
 # Cursor overlay
-npx playwright-recast -i ./traces --cursor-overlay
+pnpm exec playwright-recast -i ./traces --cursor-overlay
 
 # Cursor overlay from JSON config
-npx playwright-recast -i ./traces --cursor-overlay-config config.json
+pnpm exec playwright-recast -i ./traces --cursor-overlay-config config.json
 ```
 
 ## Next steps
@@ -5052,7 +5052,7 @@ For voiceover-driven timing where narration length determines playback speed, yo
 
 ```bash
 # Default speed processing
-npx playwright-recast -i ./traces --speed-idle 4.0 --speed-action 1.0
+pnpm exec playwright-recast -i ./traces --speed-idle 4.0 --speed-action 1.0
 ```
 
 ## Next steps

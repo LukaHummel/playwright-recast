@@ -29,13 +29,13 @@ When recording ends, the tracked actions are saved to `_recorded-actions.json` i
 recast-studio is included with playwright-recast:
 
 ```bash
-npm install playwright-recast
+pnpm add playwright-recast
 ```
 
 ## Usage
 
 ```bash
-npx recast-studio <url>
+pnpm exec recast-studio <url>
 ```
 
 ### Options
@@ -53,7 +53,7 @@ npx recast-studio <url>
 ### Basic recording
 
 ```bash
-npx recast-studio https://myapp.example.com
+pnpm exec recast-studio https://myapp.example.com
 ```
 
 Opens the browser at the given URL. Interact with the page, then click "Resume" in the Inspector.
@@ -61,7 +61,7 @@ Opens the browser at the given URL. Interact with the page, then click "Resume" 
 ### Custom output directory
 
 ```bash
-npx recast-studio -o ./recordings/demo-1 https://myapp.example.com
+pnpm exec recast-studio -o ./recordings/demo-1 https://myapp.example.com
 ```
 
 ### With authentication
@@ -69,7 +69,7 @@ npx recast-studio -o ./recordings/demo-1 https://myapp.example.com
 If your app requires login, save auth state first using Playwright's storage state feature, then load it:
 
 ```bash
-npx recast-studio --load-storage auth.json https://myapp.example.com/dashboard
+pnpm exec recast-studio --load-storage auth.json https://myapp.example.com/dashboard
 ```
 
 The browser starts with the saved session, skipping the login flow.
@@ -77,7 +77,7 @@ The browser starts with the saved session, skipping the login flow.
 ### Custom viewport
 
 ```bash
-npx recast-studio --viewport 1280x720 https://myapp.example.com
+pnpm exec recast-studio --viewport 1280x720 https://myapp.example.com
 ```
 
 ## Output

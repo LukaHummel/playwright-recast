@@ -19,7 +19,7 @@ A directory path containing:
 - `trace.zip` — Playwright trace
 - `*.webm` — screen recording
 
-Produced by: `npx recast-studio <url>`
+Produced by: `pnpm exec recast-studio <url>`
 
 ## Workflow
 

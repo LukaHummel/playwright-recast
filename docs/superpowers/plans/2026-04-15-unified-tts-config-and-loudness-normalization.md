@@ -129,7 +129,7 @@ export interface VoiceoveredTrace extends SubtitledTrace {
 
 - [ ] **Step 2: Typecheck**
 
-Run: `npm run typecheck`
+Run: `pnpm run typecheck`
 Expected: PASS (downstream providers/processor may still compile because existing fields are backwards-compatible at the type level — they'll be refactored in later tasks).
 
 - [ ] **Step 3: Commit**
@@ -218,7 +218,7 @@ describe('ElevenLabsProvider', () => {
 
 - [ ] **Step 2: Run the test — expect failures**
 
-Run: `npm test -- tests/unit/voiceover/providers.test.ts`
+Run: `pnpm test tests/unit/voiceover/providers.test.ts`
 Expected: FAIL — tests reference `voice`/`model` fields that don't exist yet (current provider has `voiceId`/`modelId`); `voiceSettings` isn't wired.
 
 - [ ] **Step 3: Rewrite the ElevenLabs provider**
@@ -335,12 +335,12 @@ export function ElevenLabsProvider(config: ElevenLabsProviderConfig = {}): TtsPr
 
 - [ ] **Step 4: Run test to verify it passes**
 
-Run: `npm test -- tests/unit/voiceover/providers.test.ts`
+Run: `pnpm test tests/unit/voiceover/providers.test.ts`
 Expected: PASS (4 tests).
 
 - [ ] **Step 5: Typecheck whole project**
 
-Run: `npm run typecheck`
+Run: `pnpm run typecheck`
 Expected: PASS.
 
 - [ ] **Step 6: Commit**
@@ -413,7 +413,7 @@ describe('OpenAIProvider', () => {
 
 - [ ] **Step 2: Run new tests — some already pass, some fail**
 
-Run: `npm test -- tests/unit/voiceover/providers.test.ts`
+Run: `pnpm test tests/unit/voiceover/providers.test.ts`
 Expected: OpenAI tests mostly PASS (current impl already merges most fields) — verify all four green; if any fail, the next step fixes them.
 
 - [ ] **Step 3: Rewrite OpenAI provider for strict consistency with the new options contract**
@@ -514,7 +514,7 @@ export function OpenAIProvider(config: OpenAIProviderConfig = {}): TtsProvider {
 
 - [ ] **Step 4: Run test to verify it passes**
 
-Run: `npm test -- tests/unit/voiceover/providers.test.ts`
+Run: `pnpm test tests/unit/voiceover/providers.test.ts`
 Expected: PASS (all 8 tests — 4 ElevenLabs + 4 OpenAI).
 
 - [ ] **Step 5: Commit**
@@ -587,7 +587,7 @@ describe('PollyProvider', () => {
 
 - [ ] **Step 2: Run the new tests — expect `languageCode` override to fail**
 
-Run: `npm test -- tests/unit/voiceover/providers.test.ts`
+Run: `pnpm test tests/unit/voiceover/providers.test.ts`
 Expected: one FAIL on the override test (current Polly impl reads `languageCode` from config only, ignores `options.languageCode`).
 
 - [ ] **Step 3: Rewrite Polly provider**
@@ -722,7 +722,7 @@ export function PollyProvider(config: PollyProviderConfig = {}): TtsProvider {
 
 - [ ] **Step 4: Run test to verify all pass**
 
-Run: `npm test -- tests/unit/voiceover/providers.test.ts`
+Run: `pnpm test tests/unit/voiceover/providers.test.ts`
 Expected: PASS (11 tests — 4 ElevenLabs + 4 OpenAI + 3 Polly).
 
 - [ ] **Step 5: Commit**
@@ -815,7 +815,7 @@ describe('normalizeLoudness', () => {
 
 - [ ] **Step 2: Run the test — expect module-not-found failure**
 
-Run: `npm test -- tests/unit/voiceover/normalize.test.ts`
+Run: `pnpm test tests/unit/voiceover/normalize.test.ts`
 Expected: FAIL — cannot resolve `../../../src/voiceover/normalize`.
 
 - [ ] **Step 3: Implement `normalizeLoudness`**
@@ -922,7 +922,7 @@ function parseLoudnormJson(stderr: string): Pass1Measurement {
 
 - [ ] **Step 4: Run test to verify it passes**
 
-Run: `npm test -- tests/unit/voiceover/normalize.test.ts`
+Run: `pnpm test tests/unit/voiceover/normalize.test.ts`
 Expected: PASS (3 tests). Each test takes ~1–2 seconds (ffmpeg sine generation + two-pass normalize + measurement).
 
 - [ ] **Step 5: Commit**
@@ -991,7 +991,7 @@ describe('Pipeline.voiceover(provider, options)', () => {
 
 - [ ] **Step 2: Run the test — expect failures**
 
-Run: `npm test -- tests/unit/pipeline/voiceover-stage.test.ts`
+Run: `pnpm test tests/unit/pipeline/voiceover-stage.test.ts`
 Expected: FAIL — `.voiceover()` currently takes only `provider`; `options` does not exist on the stage.
 
 - [ ] **Step 3: Update the stage descriptor**
@@ -1054,12 +1054,12 @@ Replace with:
 
 - [ ] **Step 5: Run test to verify it passes**
 
-Run: `npm test -- tests/unit/pipeline/voiceover-stage.test.ts`
+Run: `pnpm test tests/unit/pipeline/voiceover-stage.test.ts`
 Expected: PASS (3 tests).
 
 - [ ] **Step 6: Typecheck**
 
-Run: `npm run typecheck`
+Run: `pnpm run typecheck`
 Expected: PASS.
 
 - [ ] **Step 7: Commit**
@@ -1196,7 +1196,7 @@ describe('generateVoiceover with VoiceoverOptions.normalize', () => {
 
 - [ ] **Step 2: Run the test — expect failures**
 
-Run: `npm test -- tests/unit/voiceover/voiceover-processor.test.ts`
+Run: `pnpm test tests/unit/voiceover/voiceover-processor.test.ts`
 Expected: FAIL on the two `normalize:` cases — current `generateVoiceover` has no options parameter.
 
 - [ ] **Step 3: Add options parameter + per-segment normalization**
@@ -1357,12 +1357,12 @@ export async function generateVoiceover(
 
 - [ ] **Step 4: Run test to verify it passes**
 
-Run: `npm test -- tests/unit/voiceover/voiceover-processor.test.ts`
+Run: `pnpm test tests/unit/voiceover/voiceover-processor.test.ts`
 Expected: PASS (3 tests). Each normalize test takes ~2–3 s.
 
 - [ ] **Step 5: Typecheck**
 
-Run: `npm run typecheck`
+Run: `pnpm run typecheck`
 Expected: PASS.
 
 - [ ] **Step 6: Commit**
@@ -1403,12 +1403,12 @@ Replace with:
 
 - [ ] **Step 2: Typecheck**
 
-Run: `npm run typecheck`
+Run: `pnpm run typecheck`
 Expected: PASS.
 
 - [ ] **Step 3: Run the full test suite**
 
-Run: `npm test`
+Run: `pnpm test`
 Expected: PASS (all existing tests + 11 provider + 3 normalize + 3 processor + 3 pipeline-stage tests).
 
 - [ ] **Step 4: Commit**
@@ -1494,12 +1494,12 @@ Prepend the following block under the top-most heading of `CHANGELOG.md`:
 
 - [ ] **Step 3: Typecheck + full test run**
 
-Run: `npm run typecheck && npm test`
+Run: `pnpm run typecheck && pnpm test`
 Expected: PASS.
 
 - [ ] **Step 4: Build**
 
-Run: `npm run build`
+Run: `pnpm run build`
 Expected: PASS — `tsc` emits to `dist/` with no errors.
 
 - [ ] **Step 5: Bump version**
@@ -1519,7 +1519,7 @@ git commit -m "release: v0.15.0 — unified TTS config + loudness normalization"
 
 **Cross-repo:** Steps here operate in a different working directory. All paths are absolute. Commits land in `~/Work/cdx-daemon`, not in this plan's repo.
 
-**Prerequisite:** The new `playwright-recast` 0.15.0 is available (either published to the registry, or linked locally via `npm link` / `bun link` / `file:` dependency). If published, Task 10 upgrades the dep normally. If not yet published, Step 1 below uses a local file path.
+**Prerequisite:** The new `playwright-recast` 0.15.0 is available (either published to the registry, or linked locally via `pnpm link --global` / `bun link` / `file:` dependency). If published, Task 10 upgrades the dep normally. If not yet published, Step 1 below uses a local file path.
 
 **Files:**
 - Modify: `/Users/thepatriczek/Work/cdx-daemon/frontend/apps/demo/package.json`
@@ -1607,7 +1607,7 @@ Expected: `I:` near `-16 LUFS`, `Peak:` near `-1 dBFS`.
 ```bash
 cd /Users/thepatriczek/Work/cdx-daemon
 git add frontend/apps/demo/package.json frontend/apps/demo/utils/recast-pipeline.ts bun.lockb 2>/dev/null || true
-git add frontend/apps/demo/package.json frontend/apps/demo/utils/recast-pipeline.ts package-lock.json 2>/dev/null || true
+git add frontend/apps/demo/package.json frontend/apps/demo/utils/recast-pipeline.ts pnpm-lock.yaml 2>/dev/null || true
 git commit -m "chore(demo): upgrade playwright-recast to 0.15.0, enable voiceover normalization
 
 - Rename ElevenLabs config fields: voiceId→voice, modelId→model.

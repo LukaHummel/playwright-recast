@@ -73,7 +73,7 @@ export interface ClickEvent {
 
 - [ ] **Step 2: Verify types compile**
 
-Run: `cd ~/Work/playwright-recast && npx tsc --noEmit`
+Run: `cd ~/Work/playwright-recast && pnpm exec tsc --noEmit`
 Expected: No errors related to click-effect types
 
 - [ ] **Step 3: Commit**
@@ -135,7 +135,7 @@ describe('DEFAULT_CLICK_EFFECT', () => {
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `cd ~/Work/playwright-recast && npx vitest run tests/unit/click-effect/defaults.test.ts`
+Run: `cd ~/Work/playwright-recast && pnpm exec vitest run tests/unit/click-effect/defaults.test.ts`
 Expected: FAIL — cannot find module
 
 - [ ] **Step 3: Write the implementation**
@@ -169,7 +169,7 @@ export function resolveClickEffectConfig(
 
 - [ ] **Step 4: Run test to verify it passes**
 
-Run: `cd ~/Work/playwright-recast && npx vitest run tests/unit/click-effect/defaults.test.ts`
+Run: `cd ~/Work/playwright-recast && pnpm exec vitest run tests/unit/click-effect/defaults.test.ts`
 Expected: All 3 tests PASS
 
 - [ ] **Step 5: Commit**
@@ -259,7 +259,7 @@ describe('buildRippleArgs', () => {
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `cd ~/Work/playwright-recast && npx vitest run tests/unit/click-effect/ripple-generator.test.ts`
+Run: `cd ~/Work/playwright-recast && pnpm exec vitest run tests/unit/click-effect/ripple-generator.test.ts`
 Expected: FAIL — cannot find module
 
 - [ ] **Step 3: Write the implementation**
@@ -341,7 +341,7 @@ export function generateRippleClip(opts: RippleArgs): string {
 
 - [ ] **Step 4: Run test to verify it passes**
 
-Run: `cd ~/Work/playwright-recast && npx vitest run tests/unit/click-effect/ripple-generator.test.ts`
+Run: `cd ~/Work/playwright-recast && pnpm exec vitest run tests/unit/click-effect/ripple-generator.test.ts`
 Expected: All 3 tests PASS
 
 - [ ] **Step 5: Commit**
@@ -431,7 +431,7 @@ describe('buildClickSoundArgs', () => {
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `cd ~/Work/playwright-recast && npx vitest run tests/unit/click-effect/sound-track.test.ts`
+Run: `cd ~/Work/playwright-recast && pnpm exec vitest run tests/unit/click-effect/sound-track.test.ts`
 Expected: FAIL — cannot find module
 
 - [ ] **Step 3: Write the implementation**
@@ -567,7 +567,7 @@ export function getAudioDurationMs(audioPath: string): number {
 
 - [ ] **Step 4: Run test to verify it passes**
 
-Run: `cd ~/Work/playwright-recast && npx vitest run tests/unit/click-effect/sound-track.test.ts`
+Run: `cd ~/Work/playwright-recast && pnpm exec vitest run tests/unit/click-effect/sound-track.test.ts`
 Expected: All 4 tests PASS
 
 - [ ] **Step 5: Commit**
@@ -621,7 +621,7 @@ Add to the end of `tests/unit/pipeline/pipeline.test.ts`:
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `cd ~/Work/playwright-recast && npx vitest run tests/unit/pipeline/pipeline.test.ts`
+Run: `cd ~/Work/playwright-recast && pnpm exec vitest run tests/unit/pipeline/pipeline.test.ts`
 Expected: FAIL — `.clickEffect` is not a function
 
 - [ ] **Step 3: Add stage descriptor to stages.ts**
@@ -659,12 +659,12 @@ Add method after `enrichZoomFromReport()` (before `voiceover()`):
 
 - [ ] **Step 5: Run test to verify it passes**
 
-Run: `cd ~/Work/playwright-recast && npx vitest run tests/unit/pipeline/pipeline.test.ts`
+Run: `cd ~/Work/playwright-recast && pnpm exec vitest run tests/unit/pipeline/pipeline.test.ts`
 Expected: All tests PASS (including 2 new ones)
 
 - [ ] **Step 6: Type check**
 
-Run: `cd ~/Work/playwright-recast && npx tsc --noEmit`
+Run: `cd ~/Work/playwright-recast && pnpm exec tsc --noEmit`
 Expected: No errors
 
 - [ ] **Step 7: Commit**
@@ -788,7 +788,7 @@ In `executor.ts`, update the `traceWithVideo` construction (around line 61-67) t
 
 - [ ] **Step 4: Type check**
 
-Run: `cd ~/Work/playwright-recast && npx tsc --noEmit`
+Run: `cd ~/Work/playwright-recast && pnpm exec tsc --noEmit`
 Expected: No errors
 
 - [ ] **Step 5: Commit**
@@ -916,7 +916,7 @@ In `renderVideo()`, after the zoom phase (Phase 3) and before the padding phase 
 
 - [ ] **Step 4: Type check**
 
-Run: `cd ~/Work/playwright-recast && npx tsc --noEmit`
+Run: `cd ~/Work/playwright-recast && pnpm exec tsc --noEmit`
 Expected: No errors
 
 - [ ] **Step 5: Commit**
@@ -1031,7 +1031,7 @@ Also update tpad calculation to consider click sound duration:
 
 - [ ] **Step 2: Type check**
 
-Run: `cd ~/Work/playwright-recast && npx tsc --noEmit`
+Run: `cd ~/Work/playwright-recast && pnpm exec tsc --noEmit`
 Expected: No errors
 
 - [ ] **Step 3: Commit**
@@ -1094,7 +1094,7 @@ After the text processing section and before the voiceover section, add:
 
 - [ ] **Step 4: Type check**
 
-Run: `cd ~/Work/playwright-recast && npx tsc --noEmit`
+Run: `cd ~/Work/playwright-recast && pnpm exec tsc --noEmit`
 Expected: No errors
 
 - [ ] **Step 5: Commit**
@@ -1122,7 +1122,7 @@ export type { ClickEffectConfig, ClickEvent } from './types/click-effect.js'
 
 - [ ] **Step 2: Type check**
 
-Run: `cd ~/Work/playwright-recast && npx tsc --noEmit`
+Run: `cd ~/Work/playwright-recast && pnpm exec tsc --noEmit`
 Expected: No errors
 
 - [ ] **Step 3: Commit**
@@ -1138,12 +1138,12 @@ git commit -m "feat(click-effect): export ClickEffectConfig and ClickEvent types
 
 - [ ] **Step 1: Run full type check**
 
-Run: `cd ~/Work/playwright-recast && npx tsc --noEmit`
+Run: `cd ~/Work/playwright-recast && pnpm exec tsc --noEmit`
 Expected: No errors
 
 - [ ] **Step 2: Run all tests**
 
-Run: `cd ~/Work/playwright-recast && npx vitest run`
+Run: `cd ~/Work/playwright-recast && pnpm exec vitest run`
 Expected: All tests pass (existing + new click-effect tests)
 
 - [ ] **Step 3: Fix any issues**
@@ -1216,7 +1216,7 @@ Update the call site in `renderVideo`:
 
 - [ ] **Step 3: Type check**
 
-Run: `cd ~/Work/playwright-recast && npx tsc --noEmit`
+Run: `cd ~/Work/playwright-recast && pnpm exec tsc --noEmit`
 Expected: No errors
 
 - [ ] **Step 4: Commit**
@@ -1236,7 +1236,7 @@ This task verifies the full pipeline end-to-end using an existing trace.
 
 ```bash
 cd ~/Work/playwright-recast
-npx tsx src/cli.ts -i /path/to/trace-dir --click-effect -o /tmp/click-test.mp4
+pnpm exec tsx src/cli.ts -i /path/to/trace-dir --click-effect -o /tmp/click-test.mp4
 ```
 
 Expected: Video renders with visible ripple effects at click positions
@@ -1244,7 +1244,7 @@ Expected: Video renders with visible ripple effects at click positions
 - [ ] **Step 2: Test CLI with click effect + sound**
 
 ```bash
-npx tsx src/cli.ts -i /path/to/trace-dir --click-effect --click-sound /path/to/click.mp3 -o /tmp/click-test-sound.mp4
+pnpm exec tsx src/cli.ts -i /path/to/trace-dir --click-effect --click-sound /path/to/click.mp3 -o /tmp/click-test-sound.mp4
 ```
 
 Expected: Video with ripple effects AND audible click sounds

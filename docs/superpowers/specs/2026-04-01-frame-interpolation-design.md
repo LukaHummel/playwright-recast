@@ -31,9 +31,9 @@ await Recast
 ### CLI
 
 ```bash
-npx playwright-recast -i ./traces --interpolate
-npx playwright-recast -i ./traces --interpolate --interpolate-fps 30
-npx playwright-recast -i ./traces --interpolate --interpolate-mode blend --interpolate-quality fast
+pnpm dlx playwright-recast -i ./traces --interpolate
+pnpm dlx playwright-recast -i ./traces --interpolate --interpolate-fps 30
+pnpm dlx playwright-recast -i ./traces --interpolate --interpolate-mode blend --interpolate-quality fast
 ```
 
 ## InterpolateConfig

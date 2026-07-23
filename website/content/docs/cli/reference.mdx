@@ -6,7 +6,7 @@ description: Complete reference for the playwright-recast command-line interface
 ## Usage
 
 ```bash
-npx playwright-recast --input <trace-dir-or-zip> [options]
+pnpm exec playwright-recast --input <trace-dir-or-zip> [options]
 ```
 
 The CLI provides a code-free way to convert Playwright traces into polished demo videos. Every feature available in the programmatic API has a corresponding CLI flag.
@@ -87,49 +87,49 @@ Text processing cleans subtitle text before sending to TTS providers (strips sma
 ### Basic trace to video
 
 ```bash
-npx playwright-recast -i ./test-results/trace.zip -o demo.mp4
+pnpm exec playwright-recast -i ./test-results/trace.zip -o demo.mp4
 ```
 
 ### Speed processing with subtitle burn-in
 
 ```bash
-npx playwright-recast -i ./traces --speed-idle 4.0 --speed-action 1.0 --burn-subs
+pnpm exec playwright-recast -i ./traces --speed-idle 4.0 --speed-action 1.0 --burn-subs
 ```
 
 ### External SRT with OpenAI voiceover
 
 ```bash
-npx playwright-recast -i ./traces --srt narration.srt --provider openai --voice nova
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider openai --voice nova
 ```
 
 ### ElevenLabs voiceover
 
 ```bash
-npx playwright-recast -i ./traces --srt narration.srt --provider elevenlabs --voice onwK4e9ZLuTAKqWW03F9
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider elevenlabs --voice onwK4e9ZLuTAKqWW03F9
 ```
 
 ### Amazon Polly voiceover
 
 ```bash
-npx playwright-recast -i ./traces --srt narration.srt --provider polly --voice Joanna
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider polly --voice Joanna
 ```
 
 ### Click effects with custom sound
 
 ```bash
-npx playwright-recast -i ./traces --click-effect --click-sound click.mp3
+pnpm exec playwright-recast -i ./traces --click-effect --click-sound click.mp3
 ```
 
 ### Frame interpolation for smooth playback
 
 ```bash
-npx playwright-recast -i ./traces --interpolate --interpolate-fps 30 --interpolate-mode blend
+pnpm exec playwright-recast -i ./traces --interpolate --interpolate-fps 30 --interpolate-mode blend
 ```
 
 ### Full pipeline
 
 ```bash
-npx playwright-recast -i ./traces \
+pnpm exec playwright-recast -i ./traces \
   --srt narration.srt \
   --speed-idle 4.0 \
   --text-processing \
@@ -144,5 +144,5 @@ npx playwright-recast -i ./traces \
 ### Disable speed processing
 
 ```bash
-npx playwright-recast -i ./traces --no-speed -o raw.mp4
+pnpm exec playwright-recast -i ./traces --no-speed -o raw.mp4
 ```

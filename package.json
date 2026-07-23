@@ -73,7 +73,7 @@
     "test": "vitest run",
     "test:watch": "vitest watch",
     "typecheck": "tsc --noEmit",
-    "prepublishOnly": "npm run build && cp -R src/voiceover/providers/qwen-sidecar dist/voiceover/providers/"
+    "prepublishOnly": "pnpm run build && cp -R src/voiceover/providers/qwen-sidecar dist/voiceover/providers/"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
@@ -106,7 +106,9 @@
     "@playwright/test": "^1.58.0",
     "@types/node": "^22.0.0",
     "openai": "^6.32.0",
+    "playwright": "1.58.2",
     "typescript": "^5.9.0",
     "vitest": "^4.0.0"
-  }
+  },
+  "packageManager": "pnpm@11.7.0"
 }

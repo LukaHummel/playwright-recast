@@ -66,7 +66,7 @@ const features: Feature[] = [
   {
     name: 'CLI Included',
     description:
-      'npx playwright-recast -i trace.zip -o demo.mp4 — full pipeline from the command line.',
+      'pnpm exec playwright-recast -i trace.zip -o demo.mp4 — full pipeline from the command line.',
     icon: <Terminal className="h-5 w-5" />,
   },
   {

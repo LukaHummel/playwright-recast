@@ -8,23 +8,23 @@ description: Generate a video from a Playwright trace in under a minute.
 The fastest way to turn a Playwright trace into a video:
 
 ```bash
-npx playwright-recast -i ./test-results/trace.zip -o demo.mp4
+pnpm exec playwright-recast -i ./test-results/trace.zip -o demo.mp4
 ```
 
 ### Common CLI options
 
 ```bash
 # With speed processing
-npx playwright-recast -i ./traces --speed-idle 4.0 --speed-action 1.0
+pnpm exec playwright-recast -i ./traces --speed-idle 4.0 --speed-action 1.0
 
 # With external SRT subtitles
-npx playwright-recast -i ./traces --srt narration.srt --burn-subs
+pnpm exec playwright-recast -i ./traces --srt narration.srt --burn-subs
 
 # With TTS voiceover (OpenAI)
-npx playwright-recast -i ./traces --srt narration.srt --provider openai --voice nova
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider openai --voice nova
 
 # With TTS voiceover (ElevenLabs)
-npx playwright-recast -i ./traces --srt narration.srt --provider elevenlabs --voice onwK4e9ZLuTAKqWW03F9
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider elevenlabs --voice onwK4e9ZLuTAKqWW03F9
 ```
 
 See the [CLI Reference](/docs/cli) for all available flags.

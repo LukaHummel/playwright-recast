@@ -8,7 +8,7 @@ description: Generate voiceover narration using OpenAI's text-to-speech API.
 The OpenAI provider uses the `openai` npm package as a peer dependency. Install it alongside playwright-recast:
 
 ```bash
-npm install openai
+pnpm add openai
 ```
 
 Set your API key as an environment variable:
@@ -73,8 +73,8 @@ OpenAIProvider({
 ## CLI usage
 
 ```bash
-npx playwright-recast -i ./traces --srt narration.srt --provider openai --voice nova
-npx playwright-recast -i ./traces --srt narration.srt --provider openai --voice shimmer --tts-speed 1.2
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider openai --voice nova
+pnpm exec playwright-recast -i ./traces --srt narration.srt --provider openai --voice shimmer --tts-speed 1.2
 ```
 
 ## Environment variable

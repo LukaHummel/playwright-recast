@@ -4,7 +4,7 @@
 
 **Goal:** Build an MCP server that wraps playwright-recast's recording, trace analysis, and rendering capabilities as tools, enabling any MCP-compatible AI agent to create demo videos conversationally.
 
-**Architecture:** A `src/mcp/` directory in the playwright-recast repo containing a stdio-based MCP server with 5 tools (`record_session`, `analyze_trace`, `get_step_thumbnail`, `render_video`, `list_recordings`). The server reuses existing modules (recorder, trace parser, pipeline) and adds a step-grouping analyzer + SRT builder. Runs via `npx recast-mcp`.
+**Architecture:** A `src/mcp/` directory in the playwright-recast repo containing a stdio-based MCP server with 5 tools (`record_session`, `analyze_trace`, `get_step_thumbnail`, `render_video`, `list_recordings`). The server reuses existing modules (recorder, trace parser, pipeline) and adds a step-grouping analyzer + SRT builder. Runs via `pnpm dlx --package playwright-recast recast-mcp`.
 
 **Tech Stack:** TypeScript, `@modelcontextprotocol/sdk` (v1.29+), `zod` (v4, peer of MCP SDK), Node.js stdlib (`node:http`, `node:fs`, `node:path`, `node:child_process`)
 
@@ -46,7 +46,7 @@ Modified:
 
 ```bash
 cd /Users/thepatriczek/Work/playwright-recast
-npm install @modelcontextprotocol/sdk zod
+pnpm add @modelcontextprotocol/sdk zod
 ```
 
 - [ ] **Step 2: Add bin entry and export to package.json**
@@ -126,7 +126,7 @@ function resolveProvider(): RecastMcpConfig['ttsProvider'] {
 - [ ] **Step 4: Verify build**
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 Expected: Compiles without errors. `dist/mcp/config.js` exists.
@@ -134,7 +134,7 @@ Expected: Compiles without errors. `dist/mcp/config.js` exists.
 - [ ] **Step 5: Commit**
 
 ```bash
-git add package.json package-lock.json src/mcp/config.ts
+git add package.json pnpm-lock.yaml src/mcp/config.ts
 git commit -m "feat(mcp): add MCP SDK dependency and config module
 
 Config auto-detects TTS provider from available API keys.
@@ -216,7 +216,7 @@ Create identical stubs for: `analyze-trace.ts`, `get-thumbnail.ts`, `render-vide
 - [ ] **Step 3: Verify build**
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 Expected: Compiles. `dist/mcp/server.js` exists with shebang line.
@@ -327,7 +327,7 @@ describe('groupActions', () => {
 
 ```bash
 cd /Users/thepatriczek/Work/playwright-recast
-npx vitest run src/mcp/__tests__/analyzer.test.ts
+pnpm exec vitest run src/mcp/__tests__/analyzer.test.ts
 ```
 
 Expected: FAIL — `groupActions` not found.
@@ -650,7 +650,7 @@ function findClosestFrame(frames: ScreencastFrame[], targetTime: number): Screen
 - [ ] **Step 4: Run tests**
 
 ```bash
-npx vitest run src/mcp/__tests__/analyzer.test.ts
+pnpm exec vitest run src/mcp/__tests__/analyzer.test.ts
 ```
 
 Expected: All tests PASS.
@@ -714,7 +714,7 @@ describe('buildSrtFromSteps', () => {
 - [ ] **Step 2: Run test to verify it fails**
 
 ```bash
-npx vitest run src/mcp/__tests__/srt-builder.test.ts
+pnpm exec vitest run src/mcp/__tests__/srt-builder.test.ts
 ```
 
 Expected: FAIL — `buildSrtFromSteps` not found.
@@ -771,7 +771,7 @@ export function writeSrtFile(traceDir: string, steps: StepInput[]): string {
 - [ ] **Step 4: Run tests**
 
 ```bash
-npx vitest run src/mcp/__tests__/srt-builder.test.ts
+pnpm exec vitest run src/mcp/__tests__/srt-builder.test.ts
 ```
 
 Expected: All tests PASS.
@@ -866,7 +866,7 @@ export function registerRecordSession(server: McpServer, config: RecastMcpConfig
 - [ ] **Step 2: Verify build**
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 Expected: Compiles without errors.
@@ -938,7 +938,7 @@ export function registerAnalyzeTrace(server: McpServer, config: RecastMcpConfig)
 - [ ] **Step 2: Verify build**
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 Expected: Compiles.
@@ -1006,7 +1006,7 @@ export function registerGetThumbnail(server: McpServer, _config: RecastMcpConfig
 - [ ] **Step 2: Verify build**
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 Expected: Compiles.
@@ -1224,7 +1224,7 @@ function createTtsProvider(
 - [ ] **Step 2: Verify build**
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 Expected: Compiles.
@@ -1336,7 +1336,7 @@ export function registerListRecordings(server: McpServer, config: RecastMcpConfi
 - [ ] **Step 2: Verify build**
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 Expected: Compiles.
@@ -1427,7 +1427,7 @@ describe('MCP server', () => {
 - [ ] **Step 2: Build and run the test**
 
 ```bash
-npm run build && npx vitest run src/mcp/__tests__/server.integration.test.ts
+pnpm run build && pnpm exec vitest run src/mcp/__tests__/server.integration.test.ts
 ```
 
 Expected: PASS — server responds with 5 tools.
@@ -1474,7 +1474,7 @@ Check `.gitignore` — if `.mcp.json` is not already listed and might contain AP
 - [ ] **Step 3: Build the server**
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 - [ ] **Step 4: Test interactively with Claude Code**
@@ -1508,8 +1508,8 @@ Create `.mcp.json` at plugin root:
 {
   "mcpServers": {
     "recast": {
-      "command": "npx",
-      "args": ["-y", "-p", "playwright-recast", "recast-mcp"],
+      "command": "pnpm",
+      "args": ["dlx", "--package", "playwright-recast", "recast-mcp"],
       "env": {
         "RECAST_WORK_DIR": "."
       }
@@ -1518,7 +1518,7 @@ Create `.mcp.json` at plugin root:
 }
 ```
 
-This uses `npx` so it always gets the latest version. ENV vars like `OPENAI_API_KEY` and `ELEVENLABS_API_KEY` come from the user's shell environment.
+This uses `pnpm dlx` so it runs the package without adding it to the project. ENV vars like `OPENAI_API_KEY` and `ELEVENLABS_API_KEY` come from the user's shell environment.
 
 - [ ] **Step 2: Update plugin.json to reference hooks**
 
@@ -1652,10 +1652,10 @@ git commit -m "feat: add MCP server integration and workflow hooks"
 
 After all tasks are complete:
 
-1. **Unit tests pass:** `npx vitest run src/mcp/`
-2. **Build succeeds:** `npm run build`
+1. **Unit tests pass:** `pnpm exec vitest run src/mcp/`
+2. **Build succeeds:** `pnpm run build`
 3. **MCP protocol works:** Server starts via `node dist/mcp/server.js`, responds to initialize + tools/list
-4. **npx works:** `npx recast-mcp` starts the server (test after npm link or local install)
+4. **pnpm dlx works:** `pnpm dlx --package playwright-recast recast-mcp` starts the server (test after pnpm link --global or local install)
 5. **Claude Code integration:** Configure `.mcp.json`, have Claude list recordings and analyze a trace
 6. **Full flow (manual):** Record → analyze → write voiceover with Claude → render video
 
